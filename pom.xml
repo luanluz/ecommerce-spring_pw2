@@ -8,11 +8,11 @@
 		<version>3.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>aula0203</groupId>
-	<artifactId>atividade</artifactId>
+	<groupId>dev</groupId>
+	<artifactId>ecommerce-spring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>atividade</name>
-	<description>Atividade da aula 02/03</description>
+	<name>ecommerce-spring</name>
+	<description>E-Commerce com Spring</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
