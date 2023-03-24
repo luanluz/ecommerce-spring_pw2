@@ -14,6 +14,8 @@ public class Venda implements Serializable {
     private LocalDate data;
     @OneToMany(mappedBy = "venda")
     private List<ItemVenda> itensVenda;
+    @ManyToOne
+    private Pessoa cliente;
 
     public int getId() {
         return id;
@@ -29,6 +31,14 @@ public class Venda implements Serializable {
 
     public void setData(LocalDate data) {
         this.data = data;
+    }
+
+    public Pessoa getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Pessoa cliente) {
+        this.cliente = cliente;
     }
 
     public double total() {
