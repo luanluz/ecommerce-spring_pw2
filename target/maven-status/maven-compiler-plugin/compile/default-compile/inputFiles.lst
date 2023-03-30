@@ -1,9 +1,0 @@
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/BootApplication.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/model/entity/Produto.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/model/entity/ItemVenda.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/controller/VendaController.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/controller/ProdutoController.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/repository/ProdutoRepository.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/repository/VendaRepository.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/controller/InicioController.java
-/home/aluno/IdeaProjects/ecommerce-spring_pw2/src/main/java/dev/luanluz/model/entity/Venda.java
