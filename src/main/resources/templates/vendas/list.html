@@ -14,17 +14,21 @@
                 <th>Id</th>
                 <th>Data</th>
                 <th>Cliente</th>
-                <th>Documento</th>
                 <th>Total</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="venda : ${vendas}">
                 <td th:text="${venda.id}"></td>
-                <td th:text="${venda.data}"></td>
-                <td th:text="${venda.cliente.nome}"></td>
-                <td th:text="${venda.cliente.class.simpleName.equals('PessoaFisica') ? venda.cliente.cpf : venda.cliente.cnpj}"></td>
-                <td th:text="${venda.total}"></td>
+                <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
+                <td th:text="${venda.cliente.class.simpleName.equals('PessoaFisica') ? venda.cliente.nome : venda.cliente.razaoSocial}"></td>
+                <td th:text="${#numbers.formatCurrency(venda.total)}"></td>
+                <td>
+                    <a th:href="@{/vendas/show/{id}(id=${venda.id})}">
+                        Detalhes
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>

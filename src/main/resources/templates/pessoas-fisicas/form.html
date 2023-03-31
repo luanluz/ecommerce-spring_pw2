@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
-    <title>Inserir Pessoas</title>
+    <title>Cadastrar Pessoas</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-    <h1>Formulário Pessoa Física</h1>
+    <h1>Cadastrar Pessoa Física</h1>
     <form th:action="@{/pessoas-fisicas/save}" th:object="${pessoaFisica}" method="post">
         <input type="hidden" th:field="*{id}">
         <label for="nome">
             Nome
-            <input type="text" th:field="*{nome}" id="nome" placeholder="Digite o nome">
+            <input type="text" th:field="*{nome}" id="nome" required placeholder="Digite o nome">
         </label>
         <label for="cpf">
             CPF
-            <input type="text" th:field="*{cpf}" id="cpf" placeholder="Digite o CPF">
+            <input type="text" th:field="*{cpf}" id="cpf" required placeholder="Digite o CPF">
+        </label>
+        <label for="email">
+            E-mail
+            <input type="email" th:field="*{email}" id="email" required placeholder="Digite o e-mail">
+        </label>
+        <label for="telefone">
+            Telefone
+            <input type="text" th:field="*{telefone}" id="telefone" required placeholder="Digite o telefone">
         </label>
         <input type="submit" value="Enviar">
     </form>

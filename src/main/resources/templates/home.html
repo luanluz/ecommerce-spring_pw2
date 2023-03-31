@@ -6,32 +6,58 @@
 </head>
 <body>
     <h1>Página Inicial &ndash; Produtos</h1>
-    <ul>
+    <ol>
         <li>
-            <a th:href="@{/produtos/form}">
-                Cadastrar produto
-            </a>
+            Produtos
+            <ol>
+                <li>
+                    <a th:href="@{/produtos/form}">
+                        Cadastrar
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/produtos/list}">
+                        Manter
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/produtos/select}">
+                        Selecionar
+                    </a>
+                </li>
+            </ol>
+
         </li>
         <li>
-            <a th:href="@{/produtos/list}">
-                Listar todas os produtos
-            </a>
+            Vendas
+            <ol>
+                <li>
+                    <a th:href="@{/vendas/list}">
+                        Listar
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/vendas/cart}">
+                        Carrinho de compras
+                    </a>
+                </li>
+            </ol>
         </li>
         <li>
-            <a th:href="@{/vendas/list}">
-                Listar todas as vendas
-            </a>
+            Pessoas
+            <ol>
+                <li>
+                    <a th:href="@{/pessoas-fisicas/form}">
+                        Cadastrar pessoa física
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/pessoas-juridicas/form}">
+                        Cadastrar pessoa jurídica
+                    </a>
+                </li>
+            </ol>
         </li>
-        <li>
-            <a th:href="@{/pessoas-fisicas/form}">
-                Cadastrar pessoa física
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/pessoas-juridicas/form}">
-                Cadastrar pessoa jurídica
-            </a>
-        </li>
-    </ul>
+    </ol>
 </body>
 </html>

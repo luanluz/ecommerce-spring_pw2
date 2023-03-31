@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
-    <title>Lista de Produtos</title>
+    <title>Vendas</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -22,15 +22,15 @@
                 <td th:text="${p.descricao}"></td>
                 <td th:text="${#numbers.formatCurrency(p.valor)}"></td>
                 <td>
-                    <a th:href="@{/produtos/edit/{id}(id=${p.id})}" style="margin-right: 0.5rem">
-                        Editar
-                    </a>
-                    <a
-                        onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"
-                        th:href="@{/produtos/remove/{id}(id=${p.id})}"
-                    >
-                        Excluir
-                    </a>
+                    <form th:action="@{/vendas/add-item}" th:object="${itemVenda}" method="post">
+                        <input type="hidden" th:name="produto.id" th:value="${p.id}">
+                        <label for="qtd">
+                            Quantidade
+                            <br>
+                            <input type="number" name="produto" th:field="*{qtd}" id="qtd" placeholder="Digite a quantidade" style="width: 50px">
+                        </label>
+                        <input type="submit" value="Adicionar ao carrinho">
+                    </form>
                 </td>
             </tr>
         </tbody>
