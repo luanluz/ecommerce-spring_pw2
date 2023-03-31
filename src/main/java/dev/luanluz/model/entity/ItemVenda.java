@@ -31,6 +31,22 @@ public class ItemVenda implements Serializable {
         this.qtd = qtd;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }
+
     public double total() {
         return qtd * produto.getValor();
     }

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt">
 <head>
-    <title>Inserir Produto</title>
+    <title>Cadastrar Produto</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-    <h1>Formulário</h1>
+    <h1>Cadastrar Produto</h1>
     <form th:action="${produto.id == null} ? @{/produtos/save} : @{/produtos/update}" th:object="${produto}" method="post">
         <input type="hidden" th:field="*{id}">
         <label for="descricao">
             Descrição
-            <input type="text" th:field="*{descricao}" id="descricao" placeholder="Digite a descrição">
+            <input type="text" th:field="*{descricao}" id="descricao" required placeholder="Digite a descrição">
         </label>
         <label for="valor">
-            Descrição
-            <input type="number" th:field="*{valor}" id="valor" placeholder="Digite o valor">
+            Valor
+            <input type="number" th:field="*{valor}" id="valor" required placeholder="Digite o valor">
         </label>
         <input type="submit" value="Enviar">
     </form>
@@ -24,10 +24,6 @@
     <br>
     <a th:href="@{/}">
         Início
-    </a>
-    <br>
-    <a th:href="@{/produtos/list}">
-        Listar todas os produtos
     </a>
 
 </body>

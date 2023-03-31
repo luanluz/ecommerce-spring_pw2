@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <title>Lista de Produtos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor do produto</th>
+                <th>Quantidade</th>
+                <th>Valor Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody th:if="${session.venda.itensVenda.size()}">
+            <tr th:each="item, itemStat : ${session.venda.itensVenda}">
+                <td th:text="${item.produto.descricao}"></td>
+                <td th:text="${#numbers.formatCurrency(item.produto.valor)}"></td>
+                <td th:text="${item.qtd}"></td>
+                <td th:text="${#numbers.formatCurrency(item.total)}"></td>
+                <td>
+                    <a
+                        onclick="return window.confirm('Tem certeza que deseja excluir este item?')"
+                        th:href="@{/vendas/remove-item/{id}(id=${itemStat.index})}"
+                    >
+                        Excluir
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right">
+                    Total no carrinho
+                </td>
+                <td th:text="${#numbers.formatCurrency(session.venda.total)}"></td>
+                <td>
+                    <a
+                        onclick="return window.confirm('Tem certeza que deseja excluir tudo?')"
+                        th:href="@{/vendas/remove-all}"
+                    >
+                        Excluir tudo
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody th:unless="${session.venda.itensVenda.size()}">
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    Não há itens no carrinho
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/}">
+        Início
+    </a>
+
+</body>
+</html>
+

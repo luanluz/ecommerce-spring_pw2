@@ -1,5 +1,6 @@
 package dev.luanluz.controller;
 
+import dev.luanluz.model.entity.ItemVenda;
 import dev.luanluz.model.entity.Produto;
 import dev.luanluz.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,14 @@ public class ProdutoController {
     public ModelAndView listar(ModelMap model) {
         model.addAttribute("produtos", repository.produtos());
         return new ModelAndView("/produtos/list", model);
+    }
+
+    @GetMapping("/select")
+    public ModelAndView listarProdutosParaVenda(ModelMap model) {
+        model.addAttribute("produtos", repository.produtos());
+        model.addAttribute("itemVenda", new ItemVenda());
+
+        return new ModelAndView("/produtos/select", model);
     }
 
     @PostMapping("/save")
