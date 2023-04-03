@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <title>Lista de Vendas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <h1>
+        Cliente:
+        <span th:text="${venda.pessoa.class.simpleName.equals('PessoaFisica') ? venda.pessoa.nome : venda.pessoa.razaoSocial}"></span>
+    </h1>
+    <p>
+        Tipo do cliente:
+        <strong>
+            <span th:text="${venda.pessoa.class.simpleName.equals('PessoaFisica') ? 'Pessoa Física' : 'Pessoa Jurídica'}"></span>
+        </strong>
+    </p>
+    <p>
+        Data:
+        <strong>
+            <span th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></span>
+        </strong>
+    </p>
+    <p>
+        Total:
+        <strong>
+            <span th:text="${#numbers.formatCurrency(venda.total)}"></span>
+        </strong>
+    </p>
+
+    <br>
+    <p>Itens da compra</p>
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>Descrição do produto</th>
+                <th>Valor do produto</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${venda.itensVenda}">
+                <td th:text="${item.produto.descricao}"></td>
+                <td th:text="${#numbers.formatCurrency(item.produto.valor)}"></td>
+                <td th:text="${item.qtd}"></td>
+                <td th:text="${#numbers.formatCurrency(item.total)}"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right">
+                    Total da compra
+                </td>
+                <td th:text="${#numbers.formatCurrency(venda.total)}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/vendas/list}">
+        Voltar
+    </a>
+
+</body>
+</html>
+
