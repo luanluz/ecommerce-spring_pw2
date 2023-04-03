@@ -21,7 +21,7 @@ public class PessoaFisicaRepository {
         return em.find(PessoaFisica.class, id);
     }
 
-    public List<PessoaFisica> pessoaFisicas() {
+    public List<PessoaFisica> pessoasFisicas() {
         Query query = em.createQuery("from PessoaFisica");
         return query.getResultList();
     }

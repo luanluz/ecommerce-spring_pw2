@@ -15,7 +15,7 @@ public abstract class Pessoa implements Serializable {
     private Long id;
     private String email;
     private String telefone;
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "pessoa")
     private List<Venda> vendas;
 
     public Long getId() {

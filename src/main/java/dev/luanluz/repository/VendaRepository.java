@@ -17,4 +17,12 @@ public class VendaRepository {
         Query query = em.createQuery("from Venda");
         return query.getResultList();
     }
+
+    public Venda venda(Long id) {
+        return em.find(Venda.class, id);
+    }
+
+    public void save(Venda venda) {
+        em.persist(venda);
+    }
 }
