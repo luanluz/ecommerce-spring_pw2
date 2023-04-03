@@ -57,6 +57,19 @@
     </table>
 
     <br>
+    <form th:action="@{/vendas/checkout}" method="post">
+        <label for="pessoa">
+            Cliente
+            <br>
+            <select name="pessoa" id="pessoa">
+                <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
+                <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
+            </select>
+        </label>
+        <input type="submit" value="Finalizar compra">
+    </form>
+
+    <br>
     <a th:href="@{/}">
         Início
     </a>

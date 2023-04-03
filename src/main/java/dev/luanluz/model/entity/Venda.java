@@ -20,7 +20,7 @@ public class Venda implements Serializable {
     @OneToMany(mappedBy = "venda", cascade = CascadeType.PERSIST)
     private List<ItemVenda> itensVenda = new ArrayList<>();
     @ManyToOne
-    private Pessoa cliente;
+    private Pessoa pessoa;
 
     public int getId() {
         return id;
@@ -38,12 +38,12 @@ public class Venda implements Serializable {
         this.data = data;
     }
 
-    public Pessoa getCliente() {
-        return cliente;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setCliente(Pessoa cliente) {
-        this.cliente = cliente;
+    public void setPessoa(Pessoa cliente) {
+        this.pessoa = cliente;
     }
 
     public List<ItemVenda> getItensVenda() {
