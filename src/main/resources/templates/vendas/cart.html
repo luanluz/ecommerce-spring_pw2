@@ -57,16 +57,16 @@
     </table>
 
     <br>
-    <form th:action="@{/vendas/checkout}" method="post">
+    <form th:action="@{/vendas/select-delivery-address}" method="get">
         <label for="pessoa">
             Cliente
             <br>
-            <select name="pessoa" id="pessoa">
+            <select name="pessoaId" id="pessoa">
                 <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
                 <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
             </select>
         </label>
-        <input type="submit" value="Finalizar compra">
+        <input type="submit" value="Selecionar pessoa">
     </form>
 
     <br>

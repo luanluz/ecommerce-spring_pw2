@@ -31,6 +31,8 @@ public class VendaController {
     PessoaFisicaRepository pessoaFisicaRepository;
     @Autowired
     PessoaJuridicaRepository pessoaJuridicaRepository;
+    @Autowired
+    EnderecoRepository enderecoRepository;
 
     @GetMapping("/list")
     public ModelAndView listar(ModelMap model) {
@@ -41,16 +43,19 @@ public class VendaController {
     @PostMapping("/checkout")
     @ResponseBody
     public ModelAndView finalizarCompra(
-            @RequestParam(name = "pessoa") Long pessoaId,
+            @RequestParam(name = "pessoaId") Long pessoaId,
+            @RequestParam(name = "enderecoId") Long enderecoId,
             HttpSession session
     ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
 
         Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+        Endereco endereco = enderecoRepository.endereco(enderecoId);
 
         venda.setData(LocalDate.now());
         venda.setPessoa(pessoa);
+        venda.setEndereco(endereco);
 
         for (ItemVenda item : venda.getItensVenda())
             item.setVenda(venda);
@@ -60,6 +65,37 @@ public class VendaController {
         session.invalidate();
 
         return new ModelAndView("redirect:/vendas/list");
+    }
+
+    @GetMapping("/select-delivery-address")
+    public ModelAndView selecionarEndereco(
+            ModelMap model,
+            @RequestParam(name = "pessoaId") Long pessoaId) {
+        if (venda.getItensVenda().size() == 0)
+            return new ModelAndView("redirect:/vendas/cart");
+
+        Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+        Endereco endereco = new Endereco();
+        endereco.setPessoa(pessoa);
+
+        model.addAttribute("pessoaSelecionada", pessoa);
+        model.addAttribute("endereco", endereco);
+
+        return new ModelAndView("/vendas/select-delivery-address", model);
+    }
+
+    @PostMapping("/add-delivery-address")
+    @ResponseBody
+    public ModelAndView adicionarEnderecoEntrega(
+            Endereco endereco,
+            @RequestParam(name = "pessoaId") Long pessoaId
+    ) {
+        Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+
+        endereco.setPessoa(pessoa);
+        enderecoRepository.save(endereco);
+
+        return new ModelAndView("redirect:/vendas/select-delivery-address?pessoaId=" + pessoaId);
     }
 
     @GetMapping("/cart")

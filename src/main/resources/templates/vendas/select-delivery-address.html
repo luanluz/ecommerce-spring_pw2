@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+<head>
+    <title>Selecionar endereço</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <h1>Selecionar endereço de entrega</h1>
+
+    <form th:action="@{/vendas/checkout}" method="post">
+        <label for="endereco">
+            Selecionar endereço existente
+            <br>
+            <select name="enderecoId" id="endereco">
+                <option th:each="e : ${pessoaSelecionada.getEnderecos()}" th:value="${e.id}" th:text="${e.descricao}"></option>
+            </select>
+            <input type="hidden" name="pessoaId" th:value="${pessoaSelecionada.id}">
+        </label>
+        <input type="submit" value="Finalizar compra">
+    </form>
+    <br>
+    <br>
+
+    <form th:action="@{/vendas/add-delivery-address}" th:object="${endereco}" method="post">
+        <input type="hidden" name="pessoaId" th:value="${pessoaSelecionada.id}">
+
+        <fieldset>
+            <legend>Novo endereço</legend>
+            <label>
+                Descrição do endereço
+                <input th:field="*{descricao}" type="text" maxlength="90" />
+                <br>
+            </label>
+            <label>
+                Cep
+                <input th:field="*{cep}" type="number" id="cep" size="10" maxlength="9" />
+                <br>
+            </label>
+            <label>
+                Rua
+                <input readonly th:field="*{logradouro}" type="text" id="rua" size="60" />
+                <br>
+            </label>
+            <label>
+                Complemento
+                <input th:field="*{complemento}" type="text" id="complemento" size="60" />
+                <br>
+            </label>
+            <label>
+                Bairro
+                <input readonly th:field="*{bairro}" type="text" id="bairro" size="40" />
+                <br>
+            </label>
+            <label>
+                Cidade
+                <input readonly type="text" id="cidade" size="40" />
+                <br>
+            </label>
+            <label>
+                Estado
+                <input readonly type="text" id="uf" size="2" />
+                <br>
+            </label>
+            <input th:field="*{cidade.cod}" type="hidden" id="ibge" size="8" />
+        </fieldset>
+        <input type="submit" value="Adicionar novo endereço">
+    </form>
+
+    <br>
+    <a th:href="@{/}">
+        Início
+    </a>
+
+    <script th:src="@{/js/cep.js}"></script>
+</body>
+</html>

@@ -21,6 +21,8 @@ public class Venda implements Serializable {
     private List<ItemVenda> itensVenda = new ArrayList<>();
     @ManyToOne
     private Pessoa pessoa;
+    @ManyToOne
+    private Endereco endereco;
 
     public int getId() {
         return id;
@@ -44,6 +46,14 @@ public class Venda implements Serializable {
 
     public void setPessoa(Pessoa cliente) {
         this.pessoa = cliente;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public List<ItemVenda> getItensVenda() {

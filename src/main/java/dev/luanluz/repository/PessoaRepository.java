@@ -12,4 +12,8 @@ public class PessoaRepository {
     public Pessoa pessoa(Long id) {
         return em.find(Pessoa.class, id);
     }
+
+    public void update(Pessoa pessoa) {
+        em.merge(pessoa);
+    }
 }

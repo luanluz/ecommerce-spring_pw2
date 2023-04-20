@@ -31,7 +31,52 @@
     </p>
 
     <br>
-    <p>Itens da compra</p>
+    <h2>Endereço de entrega:</h2>
+    <p>
+        Descrição:
+        <strong>
+            <span th:text="${venda.endereco.descricao}"></span>
+        </strong>
+    </p>
+    <p>
+        CEP:
+        <strong>
+            <span th:text="${venda.endereco.cep}"></span>
+        </strong>
+    </p>
+    <p>
+        Rua:
+        <strong>
+            <span th:text="${venda.endereco.logradouro}"></span>
+        </strong>
+    </p>
+    <p>
+        Complemento:
+        <strong>
+            <span th:text="${venda.endereco.complemento}"></span>
+        </strong>
+    </p>
+    <p>
+        Complemento:
+        <strong>
+            <span th:text="${venda.endereco.bairro}"></span>
+        </strong>
+    </p>
+    <p>
+        Cidade:
+        <strong>
+            <span th:text="${venda.endereco.cidade.nome}"></span>
+        </strong>
+    </p>
+    <p>
+        Estado:
+        <strong>
+            <span th:text="${venda.endereco.cidade.estado.nome}"></span>
+        </strong>
+    </p>
+
+    <br>
+    <h2>Itens da compra</h2>
     <table class="table" border="1">
         <thead>
             <tr>
