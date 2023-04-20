@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +40,10 @@ public class VendaController {
 
     @PostMapping("/checkout")
     @ResponseBody
-    public ModelAndView finalizarCompra(@RequestParam(name = "pessoa") Long pessoaId) {
+    public ModelAndView finalizarCompra(
+            @RequestParam(name = "pessoa") Long pessoaId,
+            HttpSession session
+    ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
 
@@ -55,17 +57,9 @@ public class VendaController {
 
         repository.save(venda);
 
-        return new ModelAndView("redirect:/vendas/invalidate");
-    }
-
-    @GetMapping("/invalidate")
-    public String invalidate(HttpSession session, Model model) {
         session.invalidate();
 
-        if(model.containsAttribute("venda"))
-            model.asMap().remove("venda");
-
-        return "redirect:/vendas/list";
+        return new ModelAndView("redirect:/vendas/list");
     }
 
     @GetMapping("/cart")

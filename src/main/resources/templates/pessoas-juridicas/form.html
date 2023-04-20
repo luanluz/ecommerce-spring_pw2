@@ -9,23 +9,66 @@
 
     <h1>Cadastrar Pessoa Jurídica</h1>
     <form th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <label for="razaoSocial">
-            Razão social
-            <input type="text" th:field="*{razaoSocial}" id="razaoSocial" required placeholder="Digite a razão social">
-        </label>
-        <label for="cnpj">
-            CNPJ
-            <input type="text" th:field="*{cnpj}" id="cnpj" required placeholder="Digite o CNPJ">
-        </label>
-        <label for="email">
-            E-mail
-            <input type="email" th:field="*{email}" id="email" required placeholder="Digite o e-mail">
-        </label>
-        <label for="telefone">
-            Telefone
-            <input type="text" th:field="*{telefone}" id="telefone" required placeholder="Digite o telefone">
-        </label>
+        <fieldset>
+            <legend>Dados Pessoais</legend>
+            <input type="hidden" th:field="*{id}">
+            <label for="razaoSocial">
+                Razão social
+                <input type="text" th:field="*{razaoSocial}" id="razaoSocial" required placeholder="Digite a razão social">
+            </label>
+            <label for="cnpj">
+                CNPJ
+                <input type="text" th:field="*{cnpj}" id="cnpj" required placeholder="Digite o CNPJ">
+            </label>
+            <label for="email">
+                E-mail
+                <input type="email" th:field="*{email}" id="email" required placeholder="Digite o e-mail">
+            </label>
+            <label for="telefone">
+                Telefone
+                <input type="text" th:field="*{telefone}" id="telefone" required placeholder="Digite o telefone">
+            </label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Endereço</legend>
+            <label>
+                Descrição do endereço
+                <input th:field="*{enderecos[0].descricao}" type="text" maxlength="90" />
+                <br>
+            </label>
+            <label>
+                Cep
+                <input th:field="*{enderecos[0].cep}" type="number" id="cep" size="10" maxlength="9" />
+                <br>
+            </label>
+            <label>
+                Rua
+                <input readonly th:field="*{enderecos[0].logradouro}" type="text" id="rua" size="60" />
+                <br>
+            </label>
+            <label>
+                Complemento
+                <input th:field="*{enderecos[0].complemento}" type="text" id="complemento" size="60" />
+                <br>
+            </label>
+            <label>
+                Bairro
+                <input readonly th:field="*{enderecos[0].bairro}" type="text" id="bairro" size="40" />
+                <br>
+            </label>
+            <label>
+                Cidade
+                <input readonly type="text" id="cidade" size="40" />
+                <br>
+            </label>
+            <label>
+                Estado
+                <input readonly type="text" id="uf" size="2" />
+                <br>
+            </label>
+            <input readonly th:field="*{enderecos[0].cidade.cod}" type="hidden" id="ibge" size="8" />
+        </fieldset>
         <input type="submit" value="Enviar">
     </form>
 
@@ -34,5 +77,6 @@
         Início
     </a>
 
+    <script th:src="@{/js/cep.js}"></script>
 </body>
 </html>

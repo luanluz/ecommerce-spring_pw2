@@ -3,6 +3,7 @@ package dev.luanluz.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,8 @@ public abstract class Pessoa implements Serializable {
     private String telefone;
     @OneToMany(mappedBy = "pessoa")
     private List<Venda> vendas;
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
+    private List<Endereco> enderecos = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -48,5 +51,13 @@ public abstract class Pessoa implements Serializable {
 
     public void setVendas(List<Venda> vendas) {
         this.vendas = vendas;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
     }
 }

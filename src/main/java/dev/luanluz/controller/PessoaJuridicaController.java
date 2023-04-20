@@ -1,5 +1,6 @@
 package dev.luanluz.controller;
 
+import dev.luanluz.model.entity.Endereco;
 import dev.luanluz.model.entity.PessoaJuridica;
 import dev.luanluz.repository.PessoaJuridicaRepository;
 import jakarta.transaction.Transactional;
@@ -28,6 +29,9 @@ public class PessoaJuridicaController {
 
     @PostMapping("/save")
     public ModelAndView save(PessoaJuridica pessoaJuridica) {
+        for (Endereco endereco : pessoaJuridica.getEnderecos())
+            endereco.setPessoa(pessoaJuridica);
+
         repository.save(pessoaJuridica);
         return new ModelAndView("redirect:/pessoas-juridicas/form");
     }

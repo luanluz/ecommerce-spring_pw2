@@ -1,5 +1,6 @@
 package dev.luanluz.controller;
 
+import dev.luanluz.model.entity.Endereco;
 import dev.luanluz.model.entity.PessoaFisica;
 import dev.luanluz.repository.PessoaFisicaRepository;
 import jakarta.transaction.Transactional;
@@ -28,7 +29,9 @@ public class PessoaFisicaController {
 
     @PostMapping("/save")
     public ModelAndView save(PessoaFisica pessoaFisica) {
-        System.out.println(pessoaFisica);
+        for (Endereco endereco : pessoaFisica.getEnderecos())
+            endereco.setPessoa(pessoaFisica);
+
         repository.save(pessoaFisica);
         return new ModelAndView("redirect:/pessoas-fisicas/form");
     }
