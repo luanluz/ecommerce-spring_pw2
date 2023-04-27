@@ -1,63 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Página Inicial</title>
-</head>
-<body>
-    <h1>Página Inicial &ndash; Produtos</h1>
-    <ol>
-        <li>
-            Produtos
-            <ol>
-                <li>
-                    <a th:href="@{/produtos/form}">
-                        Cadastrar
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/produtos/list}">
-                        Manter
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/produtos/select}">
-                        Selecionar
-                    </a>
-                </li>
-            </ol>
+<html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
 
-        </li>
-        <li>
-            Vendas
-            <ol>
-                <li>
-                    <a th:href="@{/vendas/list}">
-                        Listar
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/vendas/cart}">
-                        Carrinho de compras
-                    </a>
-                </li>
-            </ol>
-        </li>
-        <li>
-            Pessoas
-            <ol>
-                <li>
-                    <a th:href="@{/pessoas-fisicas/form}">
-                        Cadastrar pessoa física
-                    </a>
-                </li>
-                <li>
-                    <a th:href="@{/pessoas-juridicas/form}">
-                        Cadastrar pessoa jurídica
-                    </a>
-                </li>
-            </ol>
-        </li>
-    </ol>
+<head th:replace="fragments/head :: head(~{}, 'Página Inicial &ndash; PWEBII')"></head>
+
+<body>
+
+    <main class="container">
+
+    </main>
+
 </body>
 </html>

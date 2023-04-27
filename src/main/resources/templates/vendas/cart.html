@@ -1,32 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt">
-<head>
-    <title>Lista de Produtos</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
+
+<head th:replace="fragments/head :: head(~{}, 'Lista de Produtos &ndash; PWEBII')"></head>
+
 <body>
 
-    <table class="table" border="1">
-        <thead>
+    <main class="container">
+        <table class="table table-striped table-hover border">
+            <thead>
             <tr>
                 <th>Descrição</th>
                 <th>Valor do produto</th>
                 <th>Quantidade</th>
                 <th>Valor Total</th>
-                <th>Ações</th>
+                <th class="text-end">Ações</th>
             </tr>
-        </thead>
-        <tbody th:if="${session.venda.itensVenda.size()}">
+            </thead>
+            <tbody th:if="${session.venda.itensVenda.size()}">
             <tr th:each="item, itemStat : ${session.venda.itensVenda}">
                 <td th:text="${item.produto.descricao}"></td>
                 <td th:text="${#numbers.formatCurrency(item.produto.valor)}"></td>
                 <td th:text="${item.qtd}"></td>
                 <td th:text="${#numbers.formatCurrency(item.total)}"></td>
-                <td>
+                <td class="text-end">
                     <a
                         onclick="return window.confirm('Tem certeza que deseja excluir este item?')"
                         th:href="@{/vendas/remove-item/{id}(id=${itemStat.index})}"
+                        class="btn btn-danger btn-sm"
                     >
                         Excluir
                     </a>
@@ -37,43 +37,45 @@
                     Total no carrinho
                 </td>
                 <td th:text="${#numbers.formatCurrency(session.venda.total)}"></td>
-                <td>
+                <td class="text-end">
                     <a
                         onclick="return window.confirm('Tem certeza que deseja excluir tudo?')"
                         th:href="@{/vendas/remove-all}"
+                        class="btn btn-danger btn-sm"
                     >
                         Excluir tudo
                     </a>
                 </td>
             </tr>
-        </tbody>
-        <tbody th:unless="${session.venda.itensVenda.size()}">
+            </tbody>
+            <tbody th:unless="${session.venda.itensVenda.size()}">
             <tr>
                 <td colspan="5" style="text-align: center">
                     Não há itens no carrinho
                 </td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <br>
-    <form th:action="@{/vendas/select-delivery-address}" method="get">
-        <label for="pessoa">
-            Cliente
-            <br>
-            <select name="pessoaId" id="pessoa">
-                <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
-                <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
-            </select>
-        </label>
-        <input type="submit" value="Selecionar pessoa">
-    </form>
+        <br>
+        <form th:action="@{/vendas/select-delivery-address}" method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="pessoa" class="form-label">
+                        Cliente
+                    </label>
+                    <select name="pessoaId" id="pessoa" class="form-select">
+                        <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
+                        <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
+                    </select>
+                </div>
+            </div>
 
-    <br>
-    <a th:href="@{/}">
-        Início
-    </a>
+            <button type="submit" class="btn btn-primary mt-3">
+                Selecionar pessoa
+            </button>
+        </form>
+    </main>
 
 </body>
 </html>
-

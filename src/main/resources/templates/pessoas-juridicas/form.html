@@ -1,82 +1,158 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt">
-<head>
-    <title>Cadastrar Pessoas</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
+
+<head th:replace="fragments/head :: head(~{}, 'Cadastrar Pessoa Jurídica &ndash; PWEBII')"></head>
+
 <body>
 
-    <h1>Cadastrar Pessoa Jurídica</h1>
-    <form th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post">
-        <fieldset>
-            <legend>Dados Pessoais</legend>
-            <input type="hidden" th:field="*{id}">
-            <label for="razaoSocial">
-                Razão social
-                <input type="text" th:field="*{razaoSocial}" id="razaoSocial" required placeholder="Digite a razão social">
-            </label>
-            <label for="cnpj">
-                CNPJ
-                <input type="text" th:field="*{cnpj}" id="cnpj" required placeholder="Digite o CNPJ">
-            </label>
-            <label for="email">
-                E-mail
-                <input type="email" th:field="*{email}" id="email" required placeholder="Digite o e-mail">
-            </label>
-            <label for="telefone">
-                Telefone
-                <input type="text" th:field="*{telefone}" id="telefone" required placeholder="Digite o telefone">
-            </label>
-        </fieldset>
+    <main class="container">
+        <form th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post" >
+            <fieldset>
+                <legend>Dados Pessoais</legend>
+                <input type="hidden" th:field="*{id}">
 
-        <fieldset>
-            <legend>Endereço</legend>
-            <label>
-                Descrição do endereço
-                <input th:field="*{enderecos[0].descricao}" type="text" maxlength="90" />
-                <br>
-            </label>
-            <label>
-                Cep
-                <input th:field="*{enderecos[0].cep}" type="number" id="cep" size="10" maxlength="9" />
-                <br>
-            </label>
-            <label>
-                Rua
-                <input readonly th:field="*{enderecos[0].logradouro}" type="text" id="rua" size="60" />
-                <br>
-            </label>
-            <label>
-                Complemento
-                <input th:field="*{enderecos[0].complemento}" type="text" id="complemento" size="60" />
-                <br>
-            </label>
-            <label>
-                Bairro
-                <input readonly th:field="*{enderecos[0].bairro}" type="text" id="bairro" size="40" />
-                <br>
-            </label>
-            <label>
-                Cidade
-                <input readonly type="text" id="cidade" size="40" />
-                <br>
-            </label>
-            <label>
-                Estado
-                <input readonly type="text" id="uf" size="2" />
-                <br>
-            </label>
-            <input readonly th:field="*{enderecos[0].cidade.cod}" type="hidden" id="ibge" size="8" />
-        </fieldset>
-        <input type="submit" value="Enviar">
-    </form>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="razaoSocial" class="form-label">
+                            Razão social
+                        </label>
+                        <input type="text" id="razaoSocial" class="form-control" th:field="*{razaoSocial}" required placeholder="Digite a razão social">
+                    </div>
 
-    <br>
-    <a th:href="@{/}">
-        Início
-    </a>
+                    <div class="col-md-3">
+                        <label for="cnpj" class="form-label">
+                            CNPJ
+                        </label>
+                        <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}" required placeholder="Digite o CNPJ">
+                    </div>
 
-    <script th:src="@{/js/cep.js}"></script>
+                    <div class="col-md-3">
+                        <label for="email" class="form-label">
+                            E-mail
+                        </label>
+                        <input type="email" id="email" class="form-control" th:field="*{email}" required placeholder="Digite o e-mail">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="telefone" class="form-label">
+                            Telefone
+                        </label>
+                        <input type="text" id="telefone" class="form-control" th:field="*{telefone}" required placeholder="Digite o telefone">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend class="mt-3">Endereço</legend>
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="descricao_end" class="form-label">
+                            Descrição do endereço
+                        </label>
+                        <input
+                            type="text"
+                            id="descricao_end"
+                            class="form-control"
+                            th:field="*{enderecos[0].descricao}"
+                            required
+                            placeholder="Digite a descrição do endereço"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="cep" class="form-label">
+                            CEP
+                        </label>
+                        <input
+                            type="number"
+                            id="cep"
+                            class="form-control"
+                            th:field="*{enderecos[0].cep}"
+                            required
+                            placeholder="Digite o CEP"
+                            maxlength="9"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="rua" class="form-label">
+                            Rua
+                        </label>
+                        <input
+                            type="text"
+                            id="rua"
+                            class="form-control"
+                            th:field="*{enderecos[0].logradouro}"
+                            readonly
+                            required
+                            placeholder="Digite a rua"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="complemento" class="form-label">
+                            Complemento
+                        </label>
+                        <input
+                            type="text"
+                            id="complemento"
+                            class="form-control"
+                            th:field="*{enderecos[0].complemento}"
+                            placeholder="Digite o complemento"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="bairro" class="form-label">
+                            Bairro
+                        </label>
+                        <input
+                            type="text"
+                            id="bairro"
+                            class="form-control"
+                            th:field="*{enderecos[0].bairro}"
+                            readonly
+                            required
+                            placeholder="Digite o bairro"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="cidade" class="form-label">
+                            Cidade
+                        </label>
+                        <input
+                            type="text"
+                            id="cidade"
+                            class="form-control"
+                            readonly
+                            placeholder="Digite a cidade"
+                        >
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="uf" class="form-label">
+                            Estado
+                        </label>
+                        <input
+                            type="text"
+                            id="uf"
+                            class="form-control"
+                            readonly
+                            placeholder="Digite o estado"
+                        >
+                    </div>
+                </div>
+
+                <input readonly th:field="*{enderecos[0].cidade.cod}" type="hidden" id="ibge" size="8" />
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+        </form>
+
+        <script th:src="@{/js/cep.js}"></script>
+    </main>
+
 </body>
 </html>
