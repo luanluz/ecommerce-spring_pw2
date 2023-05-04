@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
+
+<head th:replace="fragments/head :: head(~{}, 'Cadastrar Pessoa Jurídica &ndash; PWEBII')"></head>
+
+<body>
+
+    <main class="container">
+        <form th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post" >
+            <fieldset>
+                <legend>Dados Pessoais</legend>
+                <input type="hidden" th:field="*{id}">
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="razaoSocial" class="form-label">
+                            Razão social
+                        </label>
+                        <input type="text" id="razaoSocial" class="form-control" th:field="*{razaoSocial}" required placeholder="Digite a razão social">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="cnpj" class="form-label">
+                            CNPJ
+                        </label>
+                        <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}" required placeholder="Digite o CNPJ">
+                    </div>
+                </div>
+            </fieldset>
+
+            <div th:replace="~{pessoas/fragments/contacts :: contacts}"></div>
+
+            <div th:replace="~{pessoas/fragments/address :: address}"></div>
+
+            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+        </form>
+
+        <script th:src="@{/js/cep.js}"></script>
+    </main>
+
+</body>
+</html>

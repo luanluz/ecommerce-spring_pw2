@@ -24,7 +24,7 @@ public class PessoaFisicaController {
      */
     @GetMapping("/form")
     public String form(PessoaFisica pessoaFisica) {
-        return "/pessoas-fisicas/form";
+        return "/pessoas/fisicas/form";
     }
 
     @PostMapping("/save")
