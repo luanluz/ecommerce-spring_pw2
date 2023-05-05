@@ -1,6 +1,9 @@
 package dev.luanluz.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,11 +17,14 @@ public abstract class Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     private String email;
+    @Size(min=10, max=11)
     private String telefone;
     @OneToMany(mappedBy = "pessoa")
     private List<Venda> vendas;
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
+    @Valid
     private List<Endereco> enderecos = new ArrayList<>();
 
     public Long getId() {

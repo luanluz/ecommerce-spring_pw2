@@ -4,12 +4,17 @@ import dev.luanluz.model.entity.*;
 import dev.luanluz.repository.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 
@@ -18,6 +23,7 @@ import java.time.LocalDate;
 @Controller
 @SessionAttributes("vendas")
 @RequestMapping("vendas")
+@Validated
 public class VendaController {
     @Autowired
     Venda venda;
@@ -69,8 +75,9 @@ public class VendaController {
 
     @GetMapping("/select-delivery-address")
     public ModelAndView selecionarEndereco(
-            ModelMap model,
-            @RequestParam(name = "pessoaId") Long pessoaId) {
+        ModelMap model,
+        @RequestParam(name = "pessoaId") @NotNull Long pessoaId
+    ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
 
@@ -134,5 +141,11 @@ public class VendaController {
         model.addAttribute("venda", repository.venda(id));
 
         return new ModelAndView("/vendas/show", model);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public void handleMissingParams(MissingServletRequestParameterException e) {
+        String name = e.getParameterName();
+        System.out.println(name + " parameter is missing");
     }
 }

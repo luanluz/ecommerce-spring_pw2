@@ -16,14 +16,51 @@
                         <label for="nome" class="form-label">
                             Nome
                         </label>
-                        <input type="text" id="nome" class="form-control" th:field="*{nome}" required placeholder="Digite o nome">
+                        <input
+                            type="text"
+                            id="nome"
+                            class="form-control"
+                            th:errorclass="is-invalid"
+                            th:field="*{nome}"
+                            required
+                            placeholder="Digite o nome"
+                            aria-describedby="validationName"
+                        >
+                        <div
+                            th:if="${#fields.hasErrors('nome')}"
+                            th:errors="*{nome}"
+                            id="validationName"
+                            class="invalid-feedback"
+                        >
+                            Dado incorreto.
+                        </div>
                     </div>
 
                     <div class="col-md-3">
-                        <label for="cpf" class="form-label">
+                        <label
+                            for="cpf"
+                            class="form-label"
+                        >
                             CPF
                         </label>
-                        <input type="text" id="cpf" class="form-control" th:field="*{cpf}" required placeholder="Digite o CPF">
+                        <input
+                            type="text"
+                            id="cpf"
+                            class="form-control"
+                            th:errorclass="is-invalid"
+                            th:field="*{cpf}"
+                            required
+                            placeholder="Digite o CPF"
+                            aria-describedby="validationCPF"
+                        >
+                        <div
+                            th:if="${#fields.hasErrors('cpf')}"
+                            th:errors="*{cpf}"
+                            id="validationCPF"
+                            class="invalid-feedback"
+                        >
+                            Dado incorreto.
+                        </div>
                     </div>
                 </div>
             </fieldset>

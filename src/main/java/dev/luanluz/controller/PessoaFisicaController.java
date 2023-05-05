@@ -4,8 +4,10 @@ import dev.luanluz.model.entity.Endereco;
 import dev.luanluz.model.entity.PessoaFisica;
 import dev.luanluz.repository.PessoaFisicaRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +25,20 @@ public class PessoaFisicaController {
      * @return String
      */
     @GetMapping("/form")
-    public String form(PessoaFisica pessoaFisica) {
-        return "/pessoas/fisicas/form";
+    public ModelAndView form(PessoaFisica pessoaFisica) {
+        return new ModelAndView("/pessoas/fisicas/form");
     }
 
     @PostMapping("/save")
-    public ModelAndView save(PessoaFisica pessoaFisica) {
-        for (Endereco endereco : pessoaFisica.getEnderecos())
-            endereco.setPessoa(pessoaFisica);
+    public ModelAndView save(@Valid PessoaFisica pessoa, BindingResult result) {
+        if(result.hasErrors())
+            return form(pessoa);
 
-        repository.save(pessoaFisica);
+        for (Endereco endereco : pessoa.getEnderecos())
+            endereco.setPessoa(pessoa);
+
+        repository.save(pessoa);
+
         return new ModelAndView("redirect:/pessoas-fisicas/form");
     }
 }

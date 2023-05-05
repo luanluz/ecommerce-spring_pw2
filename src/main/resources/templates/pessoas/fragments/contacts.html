@@ -3,17 +3,57 @@
 
     <div class="row g-3">
         <div class="col-md-3">
-            <label for="email" class="form-label">
+            <label
+                for="email"
+                class="form-label"
+            >
                 E-mail
             </label>
-            <input type="email" id="email" class="form-control" th:field="*{email}" required placeholder="Digite o e-mail">
+            <input
+                type="email"
+                id="email"
+                class="form-control"
+                th:errorclass="is-invalid"
+                th:field="*{email}"
+                required
+                placeholder="Digite o e-mail"
+                aria-describedby="validationEmail"
+            >
+            <div
+                th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}"
+                id="validationEmail"
+                class="invalid-feedback"
+            >
+                Dado incorreto.
+            </div>
         </div>
 
         <div class="col-md-3">
-            <label for="telefone" class="form-label">
+            <label
+                for="telefone"
+                class="form-label"
+            >
                 Telefone
             </label>
-            <input type="text" id="telefone" class="form-control" th:field="*{telefone}" required placeholder="Digite o telefone">
+            <input
+                type="text"
+                id="telefone"
+                class="form-control"
+                th:errorclass="is-invalid"
+                th:field="*{telefone}"
+                required
+                placeholder="Digite o telefone"
+                aria-describedby="validationPhone"
+            >
+            <div
+                th:if="${#fields.hasErrors('telefone')}"
+                th:errors="*{telefone}"
+                id="validationPhone"
+                class="invalid-feedback"
+            >
+                Dado incorreto.
+            </div>
         </div>
     </div>
 </fieldset>
