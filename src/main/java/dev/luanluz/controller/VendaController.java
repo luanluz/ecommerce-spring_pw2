@@ -4,14 +4,10 @@ import dev.luanluz.model.entity.*;
 import dev.luanluz.repository.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,7 +19,6 @@ import java.time.LocalDate;
 @Controller
 @SessionAttributes("vendas")
 @RequestMapping("vendas")
-@Validated
 public class VendaController {
     @Autowired
     Venda venda;
@@ -49,7 +44,7 @@ public class VendaController {
     @PostMapping("/checkout")
     @ResponseBody
     public ModelAndView finalizarCompra(
-            @RequestParam(name = "pessoaId") Long pessoaId,
+            @RequestParam(name = "pessoa_id") Long pessoaId,
             @RequestParam(name = "enderecoId") Long enderecoId,
             HttpSession session
     ) {
@@ -76,10 +71,18 @@ public class VendaController {
     @GetMapping("/select-delivery-address")
     public ModelAndView selecionarEndereco(
         ModelMap model,
-        @RequestParam(name = "pessoaId") @NotNull Long pessoaId
+        @RequestParam(name = "pessoa_id") Long pessoaId,
+        RedirectAttributes redirAttrs
     ) {
-        if (venda.getItensVenda().size() == 0)
+        if (pessoaId == null) {
+            redirAttrs.addFlashAttribute("messageError", "Você precisa selecionar uma pessoa para efeturar compra.");
             return new ModelAndView("redirect:/vendas/cart");
+        }
+
+        if (venda.getItensVenda().size() == 0) {
+            redirAttrs.addFlashAttribute("messageError", "Você precisa adicionar itens no carrinho para efetuar compra.");
+            return new ModelAndView("redirect:/vendas/cart");
+        }
 
         Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
         Endereco endereco = new Endereco();
@@ -95,7 +98,7 @@ public class VendaController {
     @ResponseBody
     public ModelAndView adicionarEnderecoEntrega(
             Endereco endereco,
-            @RequestParam(name = "pessoaId") Long pessoaId
+            @RequestParam(name = "pessoa_id") Long pessoaId
     ) {
         Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
 
@@ -141,11 +144,5 @@ public class VendaController {
         model.addAttribute("venda", repository.venda(id));
 
         return new ModelAndView("/vendas/show", model);
-    }
-
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public void handleMissingParams(MissingServletRequestParameterException e) {
-        String name = e.getParameterName();
-        System.out.println(name + " parameter is missing");
     }
 }

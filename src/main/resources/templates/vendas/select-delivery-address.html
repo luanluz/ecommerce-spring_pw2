@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="pessoaId" th:value="${pessoaSelecionada.id}">
+            <input type="hidden" name="pessoa_id" th:value="${pessoaSelecionada.id}">
 
             <button type="submit" class="btn btn-primary mt-3">
                 Finalizar compra
@@ -26,7 +26,7 @@
         </form>
 
         <form th:action="@{/vendas/add-delivery-address}" th:object="${endereco}" method="post" class="mt-5">
-            <input type="hidden" name="pessoaId" th:value="${pessoaSelecionada.id}">
+            <input type="hidden" name="pessoa_id" th:value="${pessoaSelecionada.id}">
 
             <fieldset>
                 <legend class="mt-3">

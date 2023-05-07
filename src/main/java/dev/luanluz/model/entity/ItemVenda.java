@@ -1,6 +1,8 @@
 package dev.luanluz.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
@@ -9,6 +11,8 @@ public class ItemVenda implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
+    @NotNull
+    @Min(1)
     private double qtd;
     @OneToOne
     private Produto produto;
