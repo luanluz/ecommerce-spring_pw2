@@ -2,11 +2,16 @@ package dev.luanluz.model.entity;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @DiscriminatorValue("J")
 public class PessoaJuridica extends Pessoa {
+    @Size(min=14, max=14)
     private String cnpj;
+    @NotBlank
+    @Size(min=2, max=50)
     private String razaoSocial;
 
     public String getCnpj() {

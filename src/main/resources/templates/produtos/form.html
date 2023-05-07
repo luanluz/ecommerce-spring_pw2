@@ -20,11 +20,21 @@
                 <input
                     type="text"
                     class="form-control"
+                    th:errorclass="is-invalid"
                     th:field="*{descricao}"
                     id="descricao"
                     required
                     placeholder="Digite a descrição"
+                    aria-describedby="validationDescription"
                 >
+                <div
+                    th:if="${#fields.hasErrors('descricao')}"
+                    th:errors="*{descricao}"
+                    id="validationDescription"
+                    class="invalid-feedback"
+                >
+                    Dado incorreto.
+                </div>
             </div>
 
             <div class="col-md-2">
@@ -34,11 +44,21 @@
                 <input
                     type="number"
                     class="form-control"
+                    th:errorclass="is-invalid"
                     th:field="*{valor}"
                     id="valor"
                     required
                     placeholder="Digite o valor"
+                    aria-describedby="validationValue"
                 >
+                <div
+                    th:if="${#fields.hasErrors('valor')}"
+                    th:errors="*{valor}"
+                    id="validationValue"
+                    class="invalid-feedback"
+                >
+                    Dado incorreto.
+                </div>
             </div>
 
             <div class="col-12">

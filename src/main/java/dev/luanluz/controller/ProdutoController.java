@@ -4,9 +4,11 @@ import dev.luanluz.model.entity.ItemVenda;
 import dev.luanluz.model.entity.Produto;
 import dev.luanluz.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +27,8 @@ public class ProdutoController {
      * @return
      */
     @GetMapping("/form")
-    public String form(Produto produto) {
-        return "/produtos/form";
+    public ModelAndView form(Produto produto) {
+        return new ModelAndView("/produtos/form");
     }
 
     @GetMapping("/list")
@@ -44,7 +46,10 @@ public class ProdutoController {
     }
 
     @PostMapping("/save")
-    public ModelAndView save(Produto produto) {
+    public ModelAndView save(@Valid Produto produto, BindingResult result) {
+        if(result.hasErrors())
+            return form(produto);
+
         repository.save(produto);
         return new ModelAndView("redirect:/produtos/list");
     }
@@ -70,7 +75,10 @@ public class ProdutoController {
     }
 
     @PostMapping("/update")
-    public ModelAndView update(Produto produto) {
+    public ModelAndView update(@Valid Produto produto, BindingResult result) {
+        if(result.hasErrors())
+            return form(produto);
+
         repository.update(produto);
         return new ModelAndView("redirect:/produtos/list");
     }

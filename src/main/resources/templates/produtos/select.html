@@ -26,16 +26,31 @@
                         <label for="qtd" class="form-label">
                             Quantidade
                             <br>
-                            <input
-                                type="number"
-                                class="form-control"
-                                th:field="*{qtd}"
-                                id="qtd"
-                                placeholder="Digite a quantidade"
-                                style="width: 50px"
-                            >
                         </label>
-                        <input class="btn btn-primary btn-sm" type="submit" value="Adicionar ao carrinho">
+                        <div class="row justify-content-end">
+                            <div class="col-12 col-md-3 col-lg-2">
+                                <input
+                                    type="number"
+                                    class="form-control w-100"
+                                    th:errorclass="is-invalid"
+                                    th:field="*{qtd}"
+                                    id="qtd"
+                                    placeholder="Digite a quantidade"
+                                    aria-describedby="validationQuantidade"
+                                >
+                                <div
+                                    th:if="${#fields.hasErrors('qtd')}"
+                                    th:errors="*{qtd}"
+                                    id="validationQuantidade"
+                                    class="invalid-feedback"
+                                >
+                                    Dado incorreto.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <input class="btn btn-primary btn-sm w-100" type="submit" value="Adicionar ao carrinho">
+                            </div>
+                        </div>
                     </form>
                 </td>
             </tr>

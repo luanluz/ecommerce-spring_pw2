@@ -1,6 +1,7 @@
 package dev.luanluz.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +19,13 @@ public class Venda implements Serializable {
     private int id;
     private LocalDate data;
     @OneToMany(mappedBy = "venda", cascade = CascadeType.PERSIST)
+    @Valid
     private List<ItemVenda> itensVenda = new ArrayList<>();
     @ManyToOne
+    @Valid
     private Pessoa pessoa;
     @ManyToOne
+    @Valid
     private Endereco endereco;
 
     public int getId() {

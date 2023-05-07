@@ -1,6 +1,8 @@
 package dev.luanluz.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 
@@ -9,10 +11,18 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
+    @NotBlank
+    @Size(min=3, max=50)
     private String descricao;
+    @NotBlank
+    @Size(min=8, max=9)
     private String cep;
+    @NotBlank
+    @Size(min=3, max=100)
     private String logradouro;
     private String complemento;
+    @NotBlank
+    @Size(min=3, max=100)
     private String bairro;
     @ManyToOne
     private Pessoa pessoa;
