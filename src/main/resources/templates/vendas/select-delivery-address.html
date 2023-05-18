@@ -25,7 +25,7 @@
             </button>
         </form>
 
-        <form th:action="@{/vendas/add-delivery-address}" th:object="${endereco}" method="post" class="mt-5">
+        <form novalidate th:action="@{/vendas/add-delivery-address}" th:object="${endereco}" method="post" class="mt-5">
             <input type="hidden" name="pessoa_id" th:value="${pessoaSelecionada.id}">
 
             <fieldset>
@@ -42,10 +42,20 @@
                             type="text"
                             id="descricao_end"
                             class="form-control"
+                            th:errorclass="is-invalid"
                             th:field="*{descricao}"
                             required
                             placeholder="Digite a descrição do endereço"
+                            aria-describedby="validationEnderecoDescricao"
                         >
+                        <div
+                            th:if="${#fields.hasErrors('descricao')}"
+                            th:errors="*{descricao}"
+                            id="validationEnderecoDescricao"
+                            class="invalid-feedback"
+                        >
+                            Dado incorreto.
+                        </div>
                     </div>
 
                     <div class="col-md-3">
@@ -56,11 +66,21 @@
                             type="number"
                             id="cep"
                             class="form-control"
+                            th:errorclass="is-invalid"
                             th:field="*{cep}"
                             required
                             placeholder="Digite o CEP"
+                            aria-describedby="validationEnderecoCEP"
                             maxlength="9"
+                        />
+                        <div
+                            th:if="${#fields.hasErrors('cep')}"
+                            th:errors="*{cep}"
+                            id="validationEnderecoCEP"
+                            class="invalid-feedback"
                         >
+                            Dado incorreto.
+                        </div>
                     </div>
 
                     <div class="col-md-3">
@@ -71,11 +91,21 @@
                             type="text"
                             id="rua"
                             class="form-control"
+                            th:errorclass="is-invalid"
                             th:field="*{logradouro}"
                             readonly
                             required
                             placeholder="Digite a rua"
+                            aria-describedby="validationEnderecoLogradouro"
                         >
+                        <div
+                            th:if="${#fields.hasErrors('logradouro')}"
+                            th:errors="*{logradouro}"
+                            id="validationEnderecoLogradouro"
+                            class="invalid-feedback"
+                        >
+                            Dado incorreto.
+                        </div>
                     </div>
 
                     <div class="col-md-3">
@@ -99,11 +129,21 @@
                             type="text"
                             id="bairro"
                             class="form-control"
+                            th:errorclass="is-invalid"
                             th:field="*{bairro}"
                             readonly
                             required
                             placeholder="Digite o bairro"
+                            aria-describedby="validationEnderecoBairro"
                         >
+                        <div
+                            th:if="${#fields.hasErrors('bairro')}"
+                            th:errors="*{bairro}"
+                            id="validationEnderecoBairro"
+                            class="invalid-feedback"
+                        >
+                            Dado incorreto.
+                        </div>
                     </div>
 
                     <div class="col-md-3">
@@ -133,7 +173,7 @@
                     </div>
                 </div>
 
-                <input readonly th:field="*{cidade.cod}" type="hidden" id="ibge" size="8" />
+                <input readonly th:field="*{cidade.cod}" type="hidden" id="ibge" size="8"  value="0"/>
             </fieldset>
 
             <button type="submit" class="btn btn-primary mt-3">Adicionar novo endereço</button>

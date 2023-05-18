@@ -1,6 +1,8 @@
 package dev.luanluz.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 @Entity
 public class Cidade implements Serializable {
     @Id
+    @NotBlank
+    @Size(min=7, max=7)
     private int cod;
     private String nome;
     @OneToMany(mappedBy = "cidade")
