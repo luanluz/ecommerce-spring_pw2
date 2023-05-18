@@ -2,12 +2,15 @@ package dev.luanluz.controller;
 
 import dev.luanluz.model.entity.*;
 import dev.luanluz.repository.*;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,8 +20,6 @@ import java.time.LocalDate;
 @Scope("request")
 @Transactional
 @Controller
-@SessionAttributes("vendas")
-@RequestMapping("vendas")
 public class VendaController {
     @Autowired
     Venda venda;
@@ -35,13 +36,13 @@ public class VendaController {
     @Autowired
     EnderecoRepository enderecoRepository;
 
-    @GetMapping("/list")
+    @GetMapping("vendas/list")
     public ModelAndView listar(ModelMap model) {
         model.addAttribute("vendas", repository.vendas());
         return new ModelAndView("/vendas/list", model);
     }
 
-    @PostMapping("/checkout")
+    @PostMapping("vendas/checkout")
     @ResponseBody
     public ModelAndView finalizarCompra(
             @RequestParam(name = "pessoa_id") Long pessoaId,
@@ -68,10 +69,11 @@ public class VendaController {
         return new ModelAndView("redirect:/vendas/list");
     }
 
-    @GetMapping("/select-delivery-address")
+    @GetMapping("vendas/select-delivery-address")
     public ModelAndView selecionarEndereco(
         ModelMap model,
-        @RequestParam(name = "pessoa_id") Long pessoaId,
+        @RequestParam(name = "pessoa_id", required = false) Long pessoaId,
+        Endereco endereco,
         RedirectAttributes redirAttrs
     ) {
         if (pessoaId == null) {
@@ -85,7 +87,6 @@ public class VendaController {
         }
 
         Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
-        Endereco endereco = new Endereco();
         endereco.setPessoa(pessoa);
 
         model.addAttribute("pessoaSelecionada", pessoa);
@@ -94,12 +95,17 @@ public class VendaController {
         return new ModelAndView("/vendas/select-delivery-address", model);
     }
 
-    @PostMapping("/add-delivery-address")
-    @ResponseBody
+    @PostMapping("vendas/add-delivery-address")
     public ModelAndView adicionarEnderecoEntrega(
-            Endereco endereco,
-            @RequestParam(name = "pessoa_id") Long pessoaId
+        @RequestParam(name = "pessoa_id") Long pessoaId,
+        ModelMap model,
+        RedirectAttributes redirAttrs,
+        @Valid @ModelAttribute("endereco") Endereco endereco,
+        BindingResult result
     ) {
+        if(result.hasErrors())
+            return selecionarEndereco(model, pessoaId, endereco, redirAttrs);
+
         Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
 
         endereco.setPessoa(pessoa);
@@ -108,7 +114,7 @@ public class VendaController {
         return new ModelAndView("redirect:/vendas/select-delivery-address?pessoaId=" + pessoaId);
     }
 
-    @GetMapping("/cart")
+    @GetMapping("vendas/cart")
     public ModelAndView carrinho(ModelMap model) {
         model.addAttribute("vendas", repository.vendas());
         model.addAttribute("pessoasFisicas", pessoaFisicaRepository.pessoasFisicas());
@@ -117,29 +123,44 @@ public class VendaController {
         return new ModelAndView("/vendas/cart", model);
     }
 
-    @PostMapping("/add-item")
-    public ModelAndView addItem(ItemVenda itemVenda) {
+    @GetMapping("/")
+    public ModelAndView listarProdutosParaVenda(ItemVenda itemVenda, ModelMap model) {
+        model.addAttribute("produtos", produtoRepository.produtos());
+
+        return new ModelAndView("/vendas/select", model);
+    }
+
+    @PostMapping("vendas/add-item")
+    public ModelAndView addItem(
+        @Valid ItemVenda itemVenda,
+        BindingResult result,
+        ModelMap model
+    ) {
+        if(result.hasErrors()) {
+            return listarProdutosParaVenda(itemVenda, model);
+        }
+
         Long produtoId = (long) itemVenda.getProduto().getId();
         Produto produto = produtoRepository.produto(produtoId);
         itemVenda.setProduto(produto);
 
         venda.getItensVenda().add(itemVenda);
-        return new ModelAndView("redirect:/produtos/select");
+        return new ModelAndView("redirect:/");
     }
 
-    @GetMapping("/remove-item/{id}")
+    @GetMapping("vendas/remove-item/{id}")
     public ModelAndView removerItem(@PathVariable("id") int id) {
         venda.getItensVenda().remove(id);
         return new ModelAndView("redirect:/vendas/cart");
     }
 
-    @GetMapping("/remove-all")
+    @GetMapping("vendas/remove-all")
     public ModelAndView removerTodosItens() {
         venda.getItensVenda().clear();
         return new ModelAndView("redirect:/vendas/cart");
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("vendas/show/{id}")
     public ModelAndView exibirDetalhes(@PathVariable("id") Long id, ModelMap model) {
         model.addAttribute("venda", repository.venda(id));
 
