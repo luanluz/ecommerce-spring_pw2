@@ -2,7 +2,6 @@ package dev.luanluz.controller;
 
 import dev.luanluz.model.entity.*;
 import dev.luanluz.repository.*;
-import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -123,7 +122,7 @@ public class VendaController {
         return new ModelAndView("/vendas/cart", model);
     }
 
-    @GetMapping("/")
+    @GetMapping("/produtos-disponiveis")
     public ModelAndView listarProdutosParaVenda(ItemVenda itemVenda, ModelMap model) {
         model.addAttribute("produtos", produtoRepository.produtos());
 
@@ -145,7 +144,7 @@ public class VendaController {
         itemVenda.setProduto(produto);
 
         venda.getItensVenda().add(itemVenda);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/produtos-disponiveis");
     }
 
     @GetMapping("vendas/remove-item/{id}")

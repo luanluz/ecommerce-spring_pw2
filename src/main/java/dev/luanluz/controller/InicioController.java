@@ -1,30 +1,34 @@
 package dev.luanluz.controller;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- * @Configuration para indicar ao Spring que essa é uma classe de configuração.
- * Em seguida, é preciso estender a classe WebMvcConfigurerAdapter.
- * @author fagno
- */
-@Configuration
-public class InicioController implements WebMvcConfigurer {
+import java.io.IOException;
+import java.util.Collection;
 
+@Controller
+public class InicioController {
+    @GetMapping("/pagina-inicial")
+    public void loginPageRedirect(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authResult
+    ) throws IOException, ServletException {
 
-    /**
-     * Com a chamada a registry.addViewController(), estamos registrando um controller
-     * definido pelo próprio Spring, para atender a requisições direcionadas à URL / e /home. E com a chamada
-     * a setViewName(), sempre que a aplicação receber uma requisição para um desses endereços, a view home,
-     * criada na última aula, será exibida.
-     * @param registry
-     */
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("/");
-        registry.addViewController("/home").setViewName("/");
+        if (authResult != null && authResult.isAuthenticated()) {
+            Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+
+            if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")))
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/painel"));
+
+            else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")))
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/produtos-disponiveis"));
+
+        }
     }
-
 }
-
