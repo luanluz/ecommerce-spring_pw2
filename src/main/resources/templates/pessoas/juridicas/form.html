@@ -5,35 +5,82 @@
 
 <body>
 
-    <main class="container">
-        <form th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post" >
-            <fieldset>
-                <legend>Dados Pessoais</legend>
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Cadastrar Pessoa Jurídica
+            </h2>
+
+            <form
+                th:action="@{/pessoas-juridicas/save}" th:object="${pessoaJuridica}" method="post"
+                class="mb-8"
+            >
                 <input type="hidden" th:field="*{id}">
 
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <label for="razaoSocial" class="form-label">
-                            Razão social
-                        </label>
-                        <input type="text" id="razaoSocial" class="form-control" th:field="*{razaoSocial}" required placeholder="Digite a razão social">
-                    </div>
+                <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                        Dados Pessoais
+                    </h3>
 
-                    <div class="col-md-3">
-                        <label for="cnpj" class="form-label">
-                            CNPJ
-                        </label>
-                        <input type="text" id="cnpj" class="form-control" th:field="*{cnpj}" required placeholder="Digite o CNPJ">
-                    </div>
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">
+                          Razão social
+                        </span>
+                        <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="text"
+                            id="razaoSocial"
+                            th:field="*{razaoSocial}"
+                            required
+                            placeholder="Digite a razão social"
+                        >
+                        <span
+                            th:if="${#fields.hasErrors('razaoSocial')}"
+                            th:errors="*{razaoSocial}"
+                            id="validationName"
+                            class="text-xs text-red-600 dark:text-red-400"
+                        >
+                              Dado incorreto.
+                        </span>
+                    </label>
+
+                    <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">
+                          CNPJ
+                        </span>
+                        <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="number"
+                            id="cnpj"
+                            th:errorclass="is-invalid"
+                            th:field="*{cnpj}"
+                            required
+                            placeholder="Digite o CNPJ"
+                            aria-describedby="validationCNPJ"
+                        >
+                        <span
+                            th:if="${#fields.hasErrors('cnpj')}"
+                            th:errors="*{cnpj}"
+                            id="validationCNPJ"
+                            class="text-xs text-red-600 dark:text-red-400"
+                        >
+                              Dado incorreto.
+                        </span>
+                    </label>
                 </div>
-            </fieldset>
 
-            <div th:replace="~{pessoas/fragments/contacts :: contacts}"></div>
+                <div th:replace="~{pessoas/fragments/contacts :: contacts}"></div>
 
-            <div th:replace="~{pessoas/fragments/address :: address}"></div>
+                <div th:replace="~{pessoas/fragments/address :: address}"></div>
 
-            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
-        </form>
+                <button
+                    type="submit"
+                    class="mt-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green-700 focus:outline-none focus:shadow-outline-may-green"
+                >
+                    Enviar
+                </button>
+            </form>
+        </div>
 
         <script th:src="@{/js/cep.js}"></script>
     </main>

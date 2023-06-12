@@ -2,15 +2,38 @@
 
 <html lang="pt-BR"
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout(head, main)">
+      th:fragment="layout(head, main)"
+      :class="{ 'theme-dark': dark }" x-data="data()"
+>
 
     <head th:replace="${head}"></head>
 
-    <body class="d-flex flex-column min-vh-100">
-        <header th:replace="fragments/header :: header"></header>
+    <body>
+        <div
+            class="flex h-screen bg-gray-50 dark:bg-gray-900"
+            :class="{ 'overflow-hidden': isSideMenuOpen }"
+        >
+            <aside th:replace="fragments/aside-desktop :: aside-desktop"></aside>
+            <div
+                x-show="isSideMenuOpen"
+                x-transition:enter="transition ease-in-out duration-150"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in-out duration-150"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+            >
+            </div>
+            <aside th:replace="fragments/aside-mobile :: aside-mobile"></aside>
 
-        <main class="container" th:replace="${main}"></main>
+            <div class="flex flex-col flex-1 w-full">
+                <header th:replace="fragments/header :: header"></header>
 
-        <footer th:replace="fragments/footer :: footer"></footer>
+                <main th:replace="${main}"></main>
+
+                <footer th:replace="fragments/footer :: footer"></footer>
+            </div>
+        </div>
     </body>
 </html>

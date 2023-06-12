@@ -5,72 +5,84 @@
 
 <body>
 
-    <main class="container">
-        <form th:action="@{/pessoas-fisicas/save}" th:object="${pessoaFisica}" method="post" >
-            <fieldset>
-                <legend>Dados Pessoais</legend>
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Cadastrar Pessoa Física
+            </h2>
+
+            <form
+                th:action="@{/pessoas-fisicas/save}" th:object="${pessoaFisica}" method="post"
+                class="mb-8"
+            >
                 <input type="hidden" th:field="*{id}">
 
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <label for="nome" class="form-label">
-                            Nome
-                        </label>
+                <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                        Dados Pessoais
+                    </h3>
+
+                    <label class="block text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">
+                          Nome
+                        </span>
                         <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             type="text"
                             id="nome"
-                            class="form-control"
                             th:errorclass="is-invalid"
                             th:field="*{nome}"
                             required
                             placeholder="Digite o nome"
                             aria-describedby="validationName"
                         >
-                        <div
+                        <span
                             th:if="${#fields.hasErrors('nome')}"
                             th:errors="*{nome}"
                             id="validationName"
-                            class="invalid-feedback"
+                            class="text-xs text-red-600 dark:text-red-400"
                         >
-                            Dado incorreto.
-                        </div>
-                    </div>
+                          Dado incorreto.
+                        </span>
+                    </label>
 
-                    <div class="col-md-3">
-                        <label
-                            for="cpf"
-                            class="form-label"
-                        >
-                            CPF
-                        </label>
+                    <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">
+                          CPF
+                        </span>
                         <input
-                            type="text"
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            type="number"
                             id="cpf"
-                            class="form-control"
                             th:errorclass="is-invalid"
                             th:field="*{cpf}"
                             required
                             placeholder="Digite o CPF"
                             aria-describedby="validationCPF"
                         >
-                        <div
+                        <span
                             th:if="${#fields.hasErrors('cpf')}"
                             th:errors="*{cpf}"
                             id="validationCPF"
-                            class="invalid-feedback"
+                            class="text-xs text-red-600 dark:text-red-400"
                         >
-                            Dado incorreto.
-                        </div>
-                    </div>
+                          Dado incorreto.
+                        </span>
+                    </label>
                 </div>
-            </fieldset>
 
-            <div th:replace="~{pessoas/fragments/contacts :: contacts}"></div>
+                <div th:replace="~{pessoas/fragments/contacts :: contacts}"></div>
 
-            <div th:replace="~{pessoas/fragments/address :: address}"></div>
+                <div th:replace="~{pessoas/fragments/address :: address}"></div>
 
-            <button type="submit" class="btn btn-primary mt-3">Enviar</button>
-        </form>
+                <button
+                    type="submit"
+                    class="mt-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green-700 focus:outline-none focus:shadow-outline-may-green"
+                >
+                    Enviar
+                </button>
+            </form>
+        </div>
 
         <script th:src="@{/js/cep.js}"></script>
     </main>
