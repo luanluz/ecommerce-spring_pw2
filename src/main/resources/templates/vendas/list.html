@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
 
-<head th:replace="fragments/head :: head(~{}, 'Lista de Vendas &ndash; PWEBII')"></head>
+<head th:replace="fragments/head :: head(~{}, 'Vendas &ndash; PWEBII')"></head>
 
 <body>
 
-<main class="container">
-    <table class="table table-striped table-hover border">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Data</th>
-            <th>Cliente</th>
-            <th>Total</th>
-            <th class="text-end">Ações</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        <tr th:each="venda : ${vendas}">
-            <td th:text="${venda.id}"></td>
-            <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
-            <td th:text="${venda.pessoa.class.simpleName.equals('PessoaFisica') ? venda.pessoa.nome : venda.pessoa.razaoSocial}"></td>
-            <td th:text="${#numbers.formatCurrency(venda.total)}"></td>
-            <td class="text-end">
-                <a
-                    th:href="@{/vendas/show/{id}(id=${venda.id})}"
-                    class="btn btn-primary btn-sm"
-                >
-                    Detalhes
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</main>
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Vendas
+            </h2>
+
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full whitespace-no-wrap">
+                        <thead>
+                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3">Id</th>
+                                <th class="px-4 py-3">Data</th>
+                                <th class="px-4 py-3">Cliente</th>
+                                <th class="px-4 py-3">Total</th>
+                                <th class="px-4 py-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                            <tr class="text-gray-700 dark:text-gray-400" th:each="venda : ${vendas}">
+                                <td class="px-4 py-3 text-sm" th:text="${venda.id}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${venda.pessoa.class.simpleName.equals('PessoaFisica') ? venda.pessoa.nome : venda.pessoa.razaoSocial}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${#numbers.formatCurrency(venda.total)}"></td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <a
+                                        th:href="@{/vendas/show/{id}(id=${venda.id})}"
+                                        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green focus:outline-none focus:shadow-outline-may-green"
+                                    >
+                                        Visualizar
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>

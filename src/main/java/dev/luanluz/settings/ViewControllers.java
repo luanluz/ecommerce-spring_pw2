@@ -9,8 +9,8 @@ public class ViewControllers implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("/");
-        registry.addViewController("/home").setViewName("/");
+        registry.addViewController("/").setViewName("redirect:/pagina-inicial");
+        registry.addViewController("/pagina-inicial").setViewName("pagina-inicial");
     }
 
 }

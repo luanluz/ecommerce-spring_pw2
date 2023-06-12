@@ -65,7 +65,7 @@ public class VendaController {
 
         session.invalidate();
 
-        return new ModelAndView("redirect:/vendas/list");
+        return new ModelAndView("redirect:/pagina-inicial");
     }
 
     @GetMapping("vendas/select-delivery-address")
@@ -110,7 +110,7 @@ public class VendaController {
         endereco.setPessoa(pessoa);
         enderecoRepository.save(endereco);
 
-        return new ModelAndView("redirect:/vendas/select-delivery-address?pessoaId=" + pessoaId);
+        return new ModelAndView("redirect:/vendas/select-delivery-address?pessoa_id=" + pessoaId);
     }
 
     @GetMapping("vendas/cart")

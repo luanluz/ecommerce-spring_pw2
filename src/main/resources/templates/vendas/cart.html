@@ -1,89 +1,100 @@
 <!DOCTYPE html>
 <html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
 
-<head th:replace="fragments/head :: head(~{}, 'Lista de Produtos &ndash; PWEBII')"></head>
+<head th:replace="fragments/head :: head(~{}, 'Carrinho &ndash; PWEBII')"></head>
 
 <body>
 
-    <main class="container">
-        <div
-            class="alert alert-danger"
-            role="alert"
-            th:if="${messageError != null}"
-            th:text="${messageError}"
-        >
-            Mensagem
-        </div>
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Carrinho
+            </h2>
 
-        <table class="table table-striped table-hover border">
-            <thead>
-            <tr>
-                <th>Descrição</th>
-                <th>Valor do produto</th>
-                <th>Quantidade</th>
-                <th>Valor Total</th>
-                <th class="text-end">Ações</th>
-            </tr>
-            </thead>
-            <tbody th:if="${session.venda.itensVenda.size()}">
-            <tr th:each="item, itemStat : ${session.venda.itensVenda}">
-                <td th:text="${item.produto.descricao}"></td>
-                <td th:text="${#numbers.formatCurrency(item.produto.valor)}"></td>
-                <td th:text="${item.qtd}"></td>
-                <td th:text="${#numbers.formatCurrency(item.total)}"></td>
-                <td class="text-end">
-                    <a
-                        onclick="return window.confirm('Tem certeza que deseja excluir este item?')"
-                        th:href="@{/vendas/remove-item/{id}(id=${itemStat.index})}"
-                        class="btn btn-danger btn-sm"
-                    >
-                        Excluir
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align: right">
-                    Total no carrinho
-                </td>
-                <td th:text="${#numbers.formatCurrency(session.venda.total)}"></td>
-                <td class="text-end">
-                    <a
-                        onclick="return window.confirm('Tem certeza que deseja excluir tudo?')"
-                        th:href="@{/vendas/remove-all}"
-                        class="btn btn-danger btn-sm"
-                    >
-                        Excluir tudo
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-            <tbody th:unless="${session.venda.itensVenda.size()}">
-            <tr>
-                <td colspan="5" style="text-align: center">
-                    Não há itens no carrinho
-                </td>
-            </tr>
-            </tbody>
-        </table>
+            <div
+                class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-red-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-red-600"
+                role="alert"
+                th:if="${messageError != null}"
+                th:text="${messageError}"
+            >
+                Mensagem
+            </div>
 
-        <br>
-        <form th:action="@{/vendas/select-delivery-address}" method="get">
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="pessoa" class="form-label">
-                        Cliente
-                    </label>
-                    <select name="pessoa_id" id="pessoa" class="form-select">
-                        <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
-                        <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
-                    </select>
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full whitespace-no-wrap">
+                        <thead>
+                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3">Descrição</th>
+                                <th class="px-4 py-3">Valor do produto</th>
+                                <th class="px-4 py-3">Quantidade</th>
+                                <th class="px-4 py-3">Valor Total</th>
+                                <th class="px-4 py-3 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:if="${session.venda.itensVenda.size()}">
+                            <tr class="text-gray-700 dark:text-gray-400" th:each="item, itemStat : ${session.venda.itensVenda}">
+                                <td class="px-4 py-3 text-sm" th:text="${item.produto.descricao}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${#numbers.formatCurrency(item.produto.valor)}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${item.qtd}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${#numbers.formatCurrency(item.total)}"></td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <a
+                                        onclick="return window.confirm('Tem certeza que deseja excluir este item?')"
+                                        th:href="@{/vendas/remove-item/{id}(id=${itemStat.index})}"
+                                        class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+                                    >
+                                        Excluir
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-right" colspan="3">
+                                    Total no carrinho
+                                </td>
+                                <td class="px-4 py-3 text-sm" th:text="${#numbers.formatCurrency(session.venda.total)}"></td>
+                                <td class="px-4 py-3 text-sm text-right">
+                                    <a
+                                            onclick="return window.confirm('Tem certeza que deseja excluir tudo?')"
+                                            th:href="@{/vendas/remove-all}"
+                                            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red"
+                                    >
+                                        Excluir tudo
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:unless="${session.venda.itensVenda.size()}">
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    Não há itens no carrinho
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">
-                Selecionar pessoa
-            </button>
-        </form>
+            <form th:action="@{/vendas/select-delivery-address}" method="get" class="mt-5 mb-8" th:if="${session.venda.itensVenda.size()}">
+                <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Cliente
+                    </span>
+                    <select name="pessoa_id" class="block mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:focus:shadow-outline-gray">
+                        <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
+                        <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
+                    </select>
+                </label>
+
+                <button
+                    type="submit"
+                    class="mt-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green-700 focus:outline-none focus:shadow-outline-may-green"
+                >
+                    Selecionar pessoa
+                </button>
+            </form>
+        </div>
     </main>
 
 </body>

@@ -5,66 +5,76 @@
 
 <body>
 
-    <main class="container">
-        <form
-            th:action="${produto.id == null} ? @{/produtos/save} : @{/produtos/update}"
-            th:object="${produto}"
-            method="post"
-            class="row g-3"
-        >
-            <input type="hidden" th:field="*{id}">
-            <div class="col-md-10">
-                <label for="descricao" class="form-label">
-                    Descrição
-                </label>
-                <input
-                    type="text"
-                    class="form-control"
-                    th:errorclass="is-invalid"
-                    th:field="*{descricao}"
-                    id="descricao"
-                    required
-                    placeholder="Digite a descrição"
-                    aria-describedby="validationDescription"
-                >
-                <div
-                    th:if="${#fields.hasErrors('descricao')}"
-                    th:errors="*{descricao}"
-                    id="validationDescription"
-                    class="invalid-feedback"
-                >
-                    Dado incorreto.
-                </div>
-            </div>
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Cadastrar Produto
+            </h2>
 
-            <div class="col-md-2">
-                <label for="valor" class="form-label">
-                    Valor
-                </label>
-                <input
-                    type="number"
-                    class="form-control"
-                    th:errorclass="is-invalid"
-                    th:field="*{valor}"
-                    id="valor"
-                    required
-                    placeholder="Digite o valor"
-                    aria-describedby="validationValue"
-                >
-                <div
-                    th:if="${#fields.hasErrors('valor')}"
-                    th:errors="*{valor}"
-                    id="validationValue"
-                    class="invalid-feedback"
-                >
-                    Dado incorreto.
-                </div>
-            </div>
+            <form
+                th:action="${produto.id == null} ? @{/produtos/save} : @{/produtos/update}"
+                th:object="${produto}"
+                method="post"
+                class="mb-8"
+            >
+                <input type="hidden" th:field="*{id}">
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-        </form>
+                <label class="block text-sm">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Descrição
+                    </span>
+                    <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="text"
+                        th:errorclass="is-invalid"
+                        th:field="*{descricao}"
+                        id="descricao"
+                        required
+                        placeholder="Digite a descrição"
+                        aria-describedby="validationDescription"
+                    >
+                    <span
+                        th:if="${#fields.hasErrors('descricao')}"
+                        th:errors="*{descricao}"
+                        class="text-xs text-red-600 dark:text-red-400"
+                        id="validationDescription"
+                    >
+                      Dado incorreto.
+                    </span>
+                </label>
+
+                <label class="block text-sm mt-4">
+                    <span class="text-gray-700 dark:text-gray-400">
+                      Valor
+                    </span>
+                    <input
+                        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                        type="number"
+                        th:errorclass="is-invalid"
+                        th:field="*{valor}"
+                        id="valor"
+                        required
+                        placeholder="Digite o valor"
+                        aria-describedby="validationValue"
+                    >
+                    <span
+                        th:if="${#fields.hasErrors('valor')}"
+                        th:errors="*{valor}"
+                        id="validationValue"
+                        class="text-xs text-red-600 dark:text-red-400"
+                    >
+                      Dado incorreto.
+                    </span>
+                </label>
+
+                <button
+                    type="submit"
+                    class="mt-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green-700 focus:outline-none focus:shadow-outline-may-green"
+                >
+                    Enviar
+                </button>
+            </form>
+        </div>
     </main>
 
 </body>
