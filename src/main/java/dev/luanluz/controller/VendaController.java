@@ -2,7 +2,6 @@ package dev.luanluz.controller;
 
 import dev.luanluz.model.entity.*;
 import dev.luanluz.repository.*;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 @Scope("request")
 @Transactional
 @Controller
+@SessionAttributes("venda")
 public class VendaController {
     @Autowired
     Venda venda;
@@ -46,7 +47,7 @@ public class VendaController {
     public ModelAndView finalizarCompra(
             @RequestParam(name = "pessoa_id") Long pessoaId,
             @RequestParam(name = "enderecoId") Long enderecoId,
-            HttpSession session
+            SessionStatus sessionStatus
     ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
@@ -63,7 +64,7 @@ public class VendaController {
 
         repository.save(venda);
 
-        session.invalidate();
+        sessionStatus.setComplete();
 
         return new ModelAndView("redirect:/pagina-inicial");
     }
