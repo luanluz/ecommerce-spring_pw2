@@ -1,0 +1,52 @@
+<div class="px-4 py-3 mb-5 bg-white rounded-lg shadow-md dark:bg-gray-800" th:fragment="usuario">
+    <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+      Usuário
+    </h3>
+
+    <label class="block text-sm">
+      <span class="text-gray-700 dark:text-gray-400">
+        Nome para usuário
+      </span>
+    <input
+        class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+        type="text"
+        th:errorclass="is-invalid"
+        th:field="*{usuario.usuario}"
+        required
+        placeholder="Digite o nome para seu usuário"
+        aria-describedby="validationUsuario"
+    >
+    <span
+        th:if="${#fields.hasErrors('usuario.usuario')}"
+        th:errors="*{usuario.usuario}"
+        class="text-xs text-red-600 dark:text-red-400"
+        id="validationUsuario"
+    >
+          Dado incorreto.
+        </span>
+    </label>
+
+    <label class="block text-sm mt-4">
+      <span class="text-gray-700 dark:text-gray-400">
+        Senha
+      </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="password"
+            th:errorclass="is-invalid"
+            th:field="*{usuario.senha}"
+            required
+            placeholder="Digite a senha para seu usuário"
+            aria-describedby="validationSenha"
+        >
+        <span
+            th:if="${#fields.hasErrors('usuario.senha')}"
+            th:errors="*{usuario.senha}"
+            class="text-xs text-red-600 dark:text-red-400"
+            id="validationSenha"
+        >
+          Dado incorreto.
+        </span>
+    </label>
+
+</div>
