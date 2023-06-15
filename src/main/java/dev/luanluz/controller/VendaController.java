@@ -41,7 +41,7 @@ public class VendaController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    @GetMapping("vendas/list")
+    @GetMapping("vendas")
     public ModelAndView listar(ModelMap model) {
         model.addAttribute("vendas", repository.vendas());
         return new ModelAndView("/vendas/list", model);
@@ -62,14 +62,18 @@ public class VendaController {
     @PostMapping("vendas/checkout")
     @ResponseBody
     public ModelAndView finalizarCompra(
-            @RequestParam(name = "pessoa_id") Long pessoaId,
             @RequestParam(name = "enderecoId") Long enderecoId,
             SessionStatus sessionStatus
     ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
 
-        Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Usuario usuario = usuarioRepository.usuario(username);
+        Pessoa pessoa = pessoaRepository.pessoa(usuario.getPessoa().getId());
         Endereco endereco = enderecoRepository.endereco(enderecoId);
 
         venda.setData(LocalDate.now());
@@ -82,28 +86,28 @@ public class VendaController {
         repository.save(venda);
 
         sessionStatus.setComplete();
+        venda.getItensVenda().clear();
 
-        return new ModelAndView("redirect:/pagina-inicial");
+        return new ModelAndView("redirect:/compras");
     }
 
     @GetMapping("vendas/select-delivery-address")
     public ModelAndView selecionarEndereco(
         ModelMap model,
-        @RequestParam(name = "pessoa_id", required = false) Long pessoaId,
         Endereco endereco,
         RedirectAttributes redirAttrs
     ) {
-        if (pessoaId == null) {
-            redirAttrs.addFlashAttribute("messageError", "Você precisa selecionar uma pessoa para efeturar compra.");
-            return new ModelAndView("redirect:/vendas/cart");
-        }
-
         if (venda.getItensVenda().size() == 0) {
             redirAttrs.addFlashAttribute("messageError", "Você precisa adicionar itens no carrinho para efetuar compra.");
             return new ModelAndView("redirect:/vendas/cart");
         }
 
-        Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Usuario usuario = usuarioRepository.usuario(username);
+        Pessoa pessoa = pessoaRepository.pessoa(usuario.getPessoa().getId());
         endereco.setPessoa(pessoa);
 
         model.addAttribute("pessoaSelecionada", pessoa);
@@ -114,21 +118,25 @@ public class VendaController {
 
     @PostMapping("vendas/add-delivery-address")
     public ModelAndView adicionarEnderecoEntrega(
-        @RequestParam(name = "pessoa_id") Long pessoaId,
         ModelMap model,
         RedirectAttributes redirAttrs,
         @Valid @ModelAttribute("endereco") Endereco endereco,
         BindingResult result
     ) {
         if(result.hasErrors())
-            return selecionarEndereco(model, pessoaId, endereco, redirAttrs);
+            return selecionarEndereco(model, endereco, redirAttrs);
 
-        Pessoa pessoa = pessoaRepository.pessoa(pessoaId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Usuario usuario = usuarioRepository.usuario(username);
+        Pessoa pessoa = pessoaRepository.pessoa(usuario.getPessoa().getId());
 
         endereco.setPessoa(pessoa);
         enderecoRepository.save(endereco);
 
-        return new ModelAndView("redirect:/vendas/select-delivery-address?pessoa_id=" + pessoaId);
+        return new ModelAndView("redirect:/vendas/select-delivery-address");
     }
 
     @GetMapping("vendas/cart")
@@ -178,9 +186,15 @@ public class VendaController {
     }
 
     @GetMapping("vendas/show/{id}")
-    public ModelAndView exibirDetalhes(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("venda", repository.venda(id));
+    public ModelAndView exibirDetalhes(@PathVariable("id") Long id, ModelMap model, Authentication authentication) {
+        Venda venda = repository.venda(id);
 
-        return new ModelAndView("/vendas/show", model);
+        if (authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))
+                || venda.getPessoa().getUsuario().getUsername().equals(authentication.getName())) {
+            model.addAttribute("venda", venda);
+            return new ModelAndView("/vendas/show", model);
+        }
+
+        return new ModelAndView("redirect:/pagina-inicial");
     }
 }

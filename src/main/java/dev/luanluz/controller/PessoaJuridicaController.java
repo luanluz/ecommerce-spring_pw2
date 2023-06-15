@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Transactional
 @Controller
-@RequestMapping("pessoas-juridicas")
+@RequestMapping("pessoas/juridicas")
 public class PessoaJuridicaController {
     @Autowired
     PessoaJuridicaRepository repository;
@@ -53,6 +53,6 @@ public class PessoaJuridicaController {
             endereco.setPessoa(pessoa);
 
         repository.save(pessoa);
-        return new ModelAndView("redirect:/pessoas-juridicas/form");
+        return new ModelAndView("redirect:/pessoas/juridicas/form");
     }
 }

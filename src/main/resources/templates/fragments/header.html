@@ -47,7 +47,7 @@
                 </button>
             </li>
 
-            <li class="relative">
+            <li class="relative" sec:authorize="hasRole('ROLE_USER')">
                 <a
                     class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-may-green"
                     aria-label="Carrinho de compras"
