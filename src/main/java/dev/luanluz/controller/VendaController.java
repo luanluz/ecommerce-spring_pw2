@@ -6,6 +6,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,10 +38,24 @@ public class VendaController {
     PessoaJuridicaRepository pessoaJuridicaRepository;
     @Autowired
     EnderecoRepository enderecoRepository;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @GetMapping("vendas/list")
     public ModelAndView listar(ModelMap model) {
         model.addAttribute("vendas", repository.vendas());
+        return new ModelAndView("/vendas/list", model);
+    }
+
+    @GetMapping("compras")
+    public ModelAndView listarVendasPorCliente(ModelMap model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Usuario usuario = usuarioRepository.usuario(username);
+
+        model.addAttribute("vendas", repository.vendasPorPessoa(usuario.getId()));
         return new ModelAndView("/vendas/list", model);
     }
 
