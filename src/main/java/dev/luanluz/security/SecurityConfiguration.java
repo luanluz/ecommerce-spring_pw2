@@ -26,9 +26,16 @@ public class SecurityConfiguration {
                     .requestMatchers("/img/**").permitAll()
                     .requestMatchers( "/criar-pessoa/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/salvar-pessoa/**").permitAll()
-                    .requestMatchers("/painel/**").hasRole("ADMIN")
-                    .requestMatchers("/vendas/list").hasRole("ADMIN")
+                    .requestMatchers("/vendas").hasRole("ADMIN")
                     .requestMatchers("/produtos").hasRole("ADMIN")
+                    .requestMatchers("/pessoas/**").hasRole("ADMIN")
+                    .requestMatchers("/vendas/cart").hasRole("USER")
+                    .requestMatchers("/vendas/checkout").hasRole("USER")
+                    .requestMatchers("/vendas/select-delivery-address").hasRole("USER")
+                    .requestMatchers("/vendas/add-delivery-address").hasRole("USER")
+                    .requestMatchers("/vendas/add-item").hasRole("USER")
+                    .requestMatchers("/vendas/remove-item/**").hasRole("USER")
+                    .requestMatchers("/vendas/remove-all").hasRole("USER")
                     .anyRequest() //define que a configuração é válida para qualquer requisição.
                     .authenticated() //define que o usuário precisa estar autenticado.
                     .and()

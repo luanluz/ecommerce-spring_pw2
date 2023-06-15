@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Transactional
 @Controller
-@RequestMapping("pessoas-fisicas")
+@RequestMapping("pessoas/fisicas")
 public class PessoaFisicaController {
     @Autowired
     PessoaFisicaRepository repository;
@@ -54,6 +54,6 @@ public class PessoaFisicaController {
 
         repository.save(pessoa);
 
-        return new ModelAndView("redirect:/pessoas-fisicas/form");
+        return new ModelAndView("redirect:/pessoas/fisicas/form");
     }
 }

@@ -30,17 +30,6 @@
             </li>
         </ul>
         <ul>
-            <li class="relative px-6 py-3" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a
-                    class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    th:href="@{/vendas/list}"
-                >
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                    </svg>
-                    <span class="ml-4">Vendas</span>
-                </a>
-            </li>
             <li class="relative px-6 py-3" sec:authorize="hasRole('ROLE_USER')">
                 <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -80,11 +69,6 @@
                                 Manter
                             </a>
                         </li>
-                        <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" th:href="@{/produtos-disponiveis}">
-                                Selecionar
-                            </a>
-                        </li>
                     </ul>
                 </template>
             </li>
@@ -107,12 +91,12 @@
                 <template x-if="isPersonsMenuOpen">
                     <ul x-transition:enter="transition-all ease-in-out duration-300" x-transition:enter-start="opacity-25 max-h-0" x-transition:enter-end="opacity-100 max-h-xl" x-transition:leave="transition-all ease-in-out duration-300" x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0" class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900" aria-label="submenu">
                         <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" th:href="@{/pessoas-fisicas/form}">
+                            <a class="w-full" th:href="@{/pessoas/fisicas/form}">
                                 Cadastrar pessoa física
                             </a>
                         </li>
                         <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" th:href="@{/pessoas-juridicas/form}">
+                            <a class="w-full" th:href="@{/pessoas/juridicas/form}">
                                 Cadastrar pessoa jurídica
                             </a>
                         </li>

@@ -24,7 +24,7 @@ public class InicioController {
             Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
 
             if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")))
-                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/painel"));
+                response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/vendas"));
 
             else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER")))
                 response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/produtos-disponiveis"));

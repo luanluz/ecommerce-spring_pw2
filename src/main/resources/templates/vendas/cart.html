@@ -77,21 +77,11 @@
             </div>
 
             <form th:action="@{/vendas/select-delivery-address}" method="get" class="mt-5 mb-8" th:if="${session.venda.itensVenda.size()}">
-                <label class="block text-sm">
-                    <span class="text-gray-700 dark:text-gray-400">
-                      Cliente
-                    </span>
-                    <select name="pessoa_id" class="block mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:focus:shadow-outline-gray">
-                        <option th:each="p : ${pessoasFisicas}" th:value="${p.id}" th:text="${p.nome}"></option>
-                        <option th:each="p : ${pessoasJuridicas}" th:value="${p.id}" th:text="${p.razaoSocial}"></option>
-                    </select>
-                </label>
-
                 <button
                     type="submit"
                     class="mt-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green-700 focus:outline-none focus:shadow-outline-may-green"
                 >
-                    Selecionar pessoa
+                    Prosseguir
                 </button>
             </form>
         </div>
