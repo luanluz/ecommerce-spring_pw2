@@ -27,7 +27,7 @@ public abstract class Pessoa implements Serializable {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
     @Valid
     private List<Endereco> enderecos = new ArrayList<>();
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.PERSIST)
     @Valid
     private Usuario usuario;
 

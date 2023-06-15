@@ -21,11 +21,11 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((auth) -> {
             try {
-                auth.requestMatchers("/pessoa/form").permitAll()
-                    .requestMatchers("/css/**").permitAll()
+                auth.requestMatchers("/css/**").permitAll()
                     .requestMatchers("/js/**").permitAll()
                     .requestMatchers("/img/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/pessoa/save").permitAll()
+                    .requestMatchers( "/criar-pessoa/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/salvar-pessoa/**").permitAll()
                     .requestMatchers("/painel/**").hasRole("ADMIN")
                     .requestMatchers("/vendas/list").hasRole("ADMIN")
                     .requestMatchers("/produtos").hasRole("ADMIN")

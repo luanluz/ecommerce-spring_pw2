@@ -1,0 +1,145 @@
+<div class="mb-8" th:fragment="address">
+    <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+        Endereço
+    </h3>
+
+    <label class="block text-sm">
+        <span class="text-gray-700 dark:text-gray-400">
+          Descrição do endereço
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="descricao_end"
+            th:errorclass="is-invalid"
+            th:field="*{enderecos[0].descricao}"
+            required
+            placeholder="Digite a descrição do endereço"
+            aria-describedby="validationEnderecoDescricao"
+        >
+        <span
+            th:if="${#fields.hasErrors('enderecos[0].descricao')}"
+            th:errors="*{enderecos[0].descricao}"
+            class="text-xs text-red-600 dark:text-red-400"
+            id="validationEnderecoDescricao"
+        >
+          Dado incorreto.
+        </span>
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          CEP
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="number"
+            id="cep"
+            th:errorclass="is-invalid"
+            th:field="*{enderecos[0].cep}"
+            required
+            placeholder="Digite o CEP"
+            aria-describedby="validationEnderecoCEP"
+            maxlength="9"
+        >
+        <span
+            th:if="${#fields.hasErrors('enderecos[0].cep')}"
+            th:errors="*{enderecos[0].cep}"
+            id="validationEnderecoCEP"
+            class="text-xs text-red-600 dark:text-red-400"
+        >
+          Dado incorreto.
+        </span>
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          Rua
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="rua"
+            th:errorclass="is-invalid"
+            th:field="*{enderecos[0].logradouro}"
+            readonly
+            required
+            placeholder="Digite a rua"
+            aria-describedby="validationEnderecoLogradouro"
+        >
+        <span
+            th:if="${#fields.hasErrors('enderecos[0].logradouro')}"
+            th:errors="*{enderecos[0].logradouro}"
+            id="validationEnderecoLogradouro"
+            class="text-xs text-red-600 dark:text-red-400"
+        >
+          Dado incorreto.
+        </span>
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          Complemento
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="complemento"
+            th:field="*{enderecos[0].complemento}"
+            placeholder="Digite o complemento"
+        >
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          Bairro
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="bairro"
+            th:errorclass="is-invalid"
+            th:field="*{enderecos[0].bairro}"
+            readonly
+            required
+            placeholder="Digite o bairro"
+            aria-describedby="validationEnderecoBairro"
+        >
+        <span
+            th:if="${#fields.hasErrors('enderecos[0].bairro')}"
+            th:errors="*{enderecos[0].bairro}"
+            id="validationEnderecoBairro"
+            class="text-xs text-red-600 dark:text-red-400"
+        >
+          Dado incorreto.
+        </span>
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          Cidade
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="cidade"
+            readonly
+            placeholder="Digite a cidade"
+        >
+    </label>
+
+    <label class="block text-sm mt-4">
+        <span class="text-gray-700 dark:text-gray-400">
+          Estado
+        </span>
+        <input
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-may-green-400 focus:outline-none focus:shadow-outline-may-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+            type="text"
+            id="uf"
+            readonly
+            placeholder="Digite o estado"
+        >
+    </label>
+
+    <input readonly th:field="*{enderecos[0].cidade.cod}" type="hidden" id="ibge" size="8" />
+</div>
