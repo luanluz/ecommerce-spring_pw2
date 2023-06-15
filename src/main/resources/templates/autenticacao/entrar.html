@@ -44,7 +44,7 @@
 
                             <div th:if="${param.logout}">
                                 <div class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-white bg-may-green rounded-lg shadow-md focus:outline-none focus:shadow-outline-may-green">
-                                    Você foi desconectado!
+                                    Você foi desconectado(a)!
                                 </div>
                             </div>
                             <label class="block text-sm">
@@ -75,11 +75,18 @@
 
                             <hr class="my-8" />
 
-                            <p class="mt-1">
+                            <p class="text-gray-700 dark:text-gray-200 mt-1">
+                                Criar conta para
                                 <a class="text-sm font-medium text-may-green dark:text-may-green-400 hover:underline"
-                                   th:href="@{/criar-conta}"
+                                   th:href="@{/criar-pessoa/fisica}"
                                 >
-                                    Criar conta
+                                    pessoa física
+                                </a>
+                                ou
+                                <a class="text-sm font-medium text-may-green dark:text-may-green-400 hover:underline"
+                                   th:href="@{/criar-pessoa/juridica}"
+                                >
+                                    pessoa jurídica
                                 </a>
                             </p>
                         </form>
