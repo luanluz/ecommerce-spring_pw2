@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
 
-<head th:replace="fragments/head :: head(~{}, 'Vendas &ndash; PWEBII')"></head>
+<head th:replace="fragments/head :: head(~{}, 'Pessoas &ndash; PWEBII')"></head>
 
 <body>
 
     <main class="h-full overflow-y-auto">
         <div class="container px-6 mx-auto grid">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                Vendas
+                Pessoas
             </h2>
 
-            <form class="mb-5" th:action="@{/vendas/filtrar-por-data}">
+            <form class="mb-5" th:action="@{/pessoas/filtrar-por}">
                 <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                     Filtrar por
                 </h4>
                 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-xs dark:bg-gray-800">
                     <label class="block mt-4 text-sm">
                         <span class="text-gray-700 dark:text-gray-400">
-                          Data
+                          Nome ou razão social
                         </span>
                         <div class="relative text-gray-500 focus-withover:bg-may-green">
-                            <input th:name="data" type="date" class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focuhover:bg-may-green focus:outline-none focus:shadow-outline-may-green dark:focus:shadow-outline-gray form-input" placeholder="Descrição">
+                            <input th:name="nome" type="text" class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focuhover:bg-may-green focus:outline-none focus:shadow-outline-may-green dark:focus:shadow-outline-gray form-input" placeholder="Nome ou razão social">
                             <button type="submit" class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-r-md active:bg-may-green hover:bg-may-green focus:outline-none focus:shadow-outline-may-green">
                                 Filtrar
                             </button>
@@ -36,21 +36,19 @@
                         <thead>
                             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-4 py-3">Id</th>
-                                <th class="px-4 py-3">Data</th>
-                                <th class="px-4 py-3">Cliente</th>
-                                <th class="px-4 py-3">Total</th>
+                                <th class="px-4 py-3">Nome/Razão Social</th>
+                                <th class="px-4 py-3">E-mail</th>
                                 <th class="px-4 py-3 text-right">Ações</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:if="${vendas.size()}">
-                            <tr class="text-gray-700 dark:text-gray-400" th:each="venda : ${vendas}">
-                                <td class="px-4 py-3 text-sm" th:text="${venda.id}"></td>
-                                <td class="px-4 py-3 text-sm" th:text="${#temporals.format(venda.data, 'dd/MM/yyyy')}"></td>
-                                <td class="px-4 py-3 text-sm" th:text="${venda.pessoa.class.simpleName.equals('PessoaFisica') ? venda.pessoa.nome : venda.pessoa.razaoSocial}"></td>
-                                <td class="px-4 py-3 text-sm" th:text="${#numbers.formatCurrency(venda.total)}"></td>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:if="${pessoas.size()}">
+                            <tr class="text-gray-700 dark:text-gray-400" th:each="pessoa : ${pessoas}">
+                                <td class="px-4 py-3 text-sm" th:text="${pessoa.id}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${pessoa.class.simpleName.equals('PessoaFisica') ? pessoa.nome : pessoa.razaoSocial}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${pessoa.email}"></td>
                                 <td class="px-4 py-3 text-sm text-right">
                                     <a
-                                        th:href="@{/vendas/show/{id}(id=${venda.id})}"
+                                        th:href="@{/pessoas/show/{id}(id=${pessoa.id})}"
                                         class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green focus:outline-none focus:shadow-outline-may-green"
                                     >
                                         Visualizar
@@ -59,12 +57,12 @@
                             </tr>
                         </tbody>
 
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:unless="${vendas.size()}">
-                        <tr>
-                            <td colspan="5" class="text-center py-5 text-gray-700 dark:text-gray-200">
-                                Não há itens
-                            </td>
-                        </tr>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:unless="${pessoas.size()}">
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-gray-700 dark:text-gray-200">
+                                    Não há pessoas
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

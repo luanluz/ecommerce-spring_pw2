@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout(~{::head}, ~{::main})}">
+
+<head th:replace="fragments/head :: head(~{}, 'Detalhes da Pessoa &ndash; PWEBII')"></head>
+
+<body>
+
+    <main class="h-full overflow-y-auto">
+        <div class="container px-6 mx-auto grid">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                Detalhes da Pessoa
+            </h2>
+
+            <div class="flex justify-between mb-6">
+                <div class="text-gray-700">
+                    <div>Pessoa #: <span th:text="${pessoa.id}"></span></div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-lg font-bold mb-1 text-gray-700">Pessoa:</h2>
+                <div class="text-gray-700 mb-2">Email: <span th:text="${pessoa.email}"></span></div>
+                <div class="text-gray-700 mb-2">Telefone: <span th:text="${pessoa.telefone}"></span></div>
+                <div class="text-gray-700 mb-2">Nome/Razão Social: <span th:text="${pessoa.class.simpleName.equals('PessoaFisica') ? pessoa.nome : pessoa.razaoSocial}"></span></div>
+                <div class="text-gray-700 mb-2">Tipo de Pessoa: <span th:text="${pessoa.class.simpleName.equals('PessoaFisica') ? 'Pessoa Física' : 'Pessoa Jurídica'}"></span></div>
+                <div class="text-gray-700 mb-2">CPF/CNPJ: <span th:text="${pessoa.class.simpleName.equals('PessoaFisica') ? pessoa.cpf : pessoa.cnpj}"></span></div>
+            </div>
+
+            <div class="w-full overflow-hidden rounded-lg shadow-xs mb-8">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full whitespace-no-wrap">
+                        <thead>
+                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                <th class="px-4 py-3">Descrição</th>
+                                <th class="px-4 py-3">CEP</th>
+                                <th class="px-4 py-3">Logradouro</th>
+                                <th class="px-4 py-3">Complemento</th>
+                                <th class="px-4 py-3">Bairro</th>
+                                <th class="px-4 py-3">Cidade</th>
+                                <th class="px-4 py-3">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:if="${pessoa.enderecos.size()}">
+                            <tr class="text-gray-700 dark:text-gray-400" th:each="endereco : ${pessoa.enderecos}">
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.descricao}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.cep}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.logradouro}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.complemento}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.bairro}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.cidade.nome}"></td>
+                                <td class="px-4 py-3 text-sm" th:text="${endereco.cidade.estado.nome}"></td>
+                            </tr>
+                        </tbody>
+
+                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" th:unless="${pessoa.enderecos.size()}">
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-gray-700 dark:text-gray-200">
+                                    Não há endereços
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex flex-col flex-wrap mb-4 space-y-4 md:flex-row md:items-end md:space-x-4">
+                <a th:href="@{/pessoas/list}"
+                   class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-lg active:bg-may-green hover:bg-may-green focus:outline-none focus:shadow-outline-may-green"
+                >
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

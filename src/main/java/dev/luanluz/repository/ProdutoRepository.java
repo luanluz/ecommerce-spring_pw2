@@ -2,6 +2,7 @@ package dev.luanluz.repository;
 
 import dev.luanluz.model.entity.Produto;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,24 @@ public class ProdutoRepository {
         return em.find(Produto.class, id);
     }
 
+    public List<Produto> produtosPorNome(String descricao) {
+        try {
+            Query query = em.createQuery("FROM Produto WHERE descricao LIKE CONCAT('%',:descricao,'%')");
+            query.setParameter("descricao", descricao);
+
+            return query.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public List<Produto> produtos() {
-        Query query = em.createQuery("from Produto");
-        return query.getResultList();
+        try {
+            Query query = em.createQuery("FROM Produto");
+            return query.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public void remove(Long id) {

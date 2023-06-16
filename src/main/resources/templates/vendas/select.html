@@ -11,7 +11,26 @@
                 Produtos Disponíveis
             </h2>
 
-            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+            <form class="mb-5" th:action="@{/produtos-disponiveis/filtrar-por}">
+                <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                    Filtrar por
+                </h4>
+                <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <label class="block mt-4 text-sm">
+                        <span class="text-gray-700 dark:text-gray-400">
+                          Descrição do produto
+                        </span>
+                        <div class="relative text-gray-500 focus-withover:bg-may-green">
+                            <input th:name="produto_descricao" class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focuhover:bg-may-green focus:outline-none focus:shadow-outline-may-green dark:focus:shadow-outline-gray form-input" placeholder="Descrição">
+                            <button type="submit" class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-may-green border border-transparent rounded-r-md active:bg-may-green hover:bg-may-green focus:outline-none focus:shadow-outline-may-green">
+                                Filtrar
+                            </button>
+                        </div>
+                    </label>
+                </div>
+            </form>
+
+            <div class="w-full overflow-hidden rounded-lg shadow-xs mb-8">
                 <div class="w-full overflow-x-auto">
                     <table class="w-full whitespace-no-wrap">
                         <thead>
