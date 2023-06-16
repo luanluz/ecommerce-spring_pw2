@@ -1,9 +1,7 @@
 package dev.luanluz.repository;
 
 import dev.luanluz.model.entity.PessoaJuridica;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,6 +17,17 @@ public class PessoaJuridicaRepository {
 
     public PessoaJuridica pessoaJuridica(Long id) {
         return em.find(PessoaJuridica.class, id);
+    }
+
+    public List<PessoaJuridica> pessoaJuridicaPorNome(String razaoSocial) {
+        try {
+            Query query = em.createQuery("FROM PessoaJuridica WHERE razaoSocial LIKE CONCAT('%',:razaoSocial,'%')");
+            query.setParameter("razaoSocial", razaoSocial);
+
+            return query.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public List<PessoaJuridica> pessoasJuridicas() {

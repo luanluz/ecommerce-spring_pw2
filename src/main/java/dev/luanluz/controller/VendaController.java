@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Scope("request")
 @Transactional
@@ -47,9 +47,37 @@ public class VendaController {
         return new ModelAndView("/vendas/list", model);
     }
 
+    @GetMapping("vendas/filtrar-por-data")
+    public ModelAndView filtrarVendas(
+        ModelMap model,
+        @RequestParam(name = "data", required = false) String data,
+        Authentication authentication
+    ) {
+        List<Venda> vendas;
+
+        if (authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"))) {
+            if (data == null)
+                vendas = repository.vendas();
+            else
+                vendas = repository.vendasPorData(LocalDate.parse(data));
+        } else {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+
+            Usuario usuario = usuarioRepository.usuario(username);
+
+            if (data == null)
+                vendas = repository.vendasPorPessoa(usuario.getId());
+            else
+                vendas = repository.vendasDePessoaPorData(usuario.getId(), LocalDate.parse(data));
+        }
+
+        model.addAttribute("vendas", vendas);
+        return new ModelAndView("/vendas/list", model);
+    }
+
     @GetMapping("compras")
-    public ModelAndView listarVendasPorCliente(ModelMap model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ModelAndView listarVendasPorCliente(ModelMap model, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
 
@@ -63,12 +91,12 @@ public class VendaController {
     @ResponseBody
     public ModelAndView finalizarCompra(
             @RequestParam(name = "enderecoId") Long enderecoId,
-            SessionStatus sessionStatus
+            SessionStatus sessionStatus,
+            Authentication authentication
     ) {
         if (venda.getItensVenda().size() == 0)
             return new ModelAndView("redirect:/vendas/cart");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
 
@@ -95,14 +123,14 @@ public class VendaController {
     public ModelAndView selecionarEndereco(
         ModelMap model,
         Endereco endereco,
-        RedirectAttributes redirAttrs
+        RedirectAttributes redirAttrs,
+        Authentication authentication
     ) {
         if (venda.getItensVenda().size() == 0) {
             redirAttrs.addFlashAttribute("messageError", "Você precisa adicionar itens no carrinho para efetuar compra.");
             return new ModelAndView("redirect:/vendas/cart");
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
 
@@ -121,12 +149,12 @@ public class VendaController {
         ModelMap model,
         RedirectAttributes redirAttrs,
         @Valid @ModelAttribute("endereco") Endereco endereco,
-        BindingResult result
+        BindingResult result,
+        Authentication authentication
     ) {
         if(result.hasErrors())
-            return selecionarEndereco(model, endereco, redirAttrs);
+            return selecionarEndereco(model, endereco, redirAttrs, authentication);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
 
@@ -142,8 +170,6 @@ public class VendaController {
     @GetMapping("vendas/cart")
     public ModelAndView carrinho(ModelMap model) {
         model.addAttribute("vendas", repository.vendas());
-        model.addAttribute("pessoasFisicas", pessoaFisicaRepository.pessoasFisicas());
-        model.addAttribute("pessoasJuridicas", pessoaJuridicaRepository.pessoasJuridicas());
 
         return new ModelAndView("/vendas/cart", model);
     }
@@ -151,6 +177,24 @@ public class VendaController {
     @GetMapping("/produtos-disponiveis")
     public ModelAndView listarProdutosParaVenda(ItemVenda itemVenda, ModelMap model) {
         model.addAttribute("produtos", produtoRepository.produtos());
+
+        return new ModelAndView("/vendas/select", model);
+    }
+
+    @GetMapping("/produtos-disponiveis/filtrar-por")
+    public ModelAndView filtrarProdutosPor(
+            ItemVenda itemVenda,
+            ModelMap model,
+            @RequestParam(name = "produto_descricao", required = false) String produtoDescricao
+    ) {
+        List<Produto> produtos;
+
+        if (produtoDescricao == null || produtoDescricao.equals(""))
+            produtos = produtoRepository.produtos();
+        else
+            produtos = produtoRepository.produtosPorNome(produtoDescricao);
+
+        model.addAttribute("produtos", produtos);
 
         return new ModelAndView("/vendas/select", model);
     }
